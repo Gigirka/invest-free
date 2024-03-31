@@ -1,0 +1,46 @@
+input[type="radio"] {
+    list-style: none;
+    margin: 5px;
+    display: inline-block; /* Display radio buttons horizontally */
+}
+
+input[type="radio"] + label {
+    margin-left: 5px; /* Adjust spacing between radio button and label */
+}
+.heading-container {
+    display: flex;
+    justify-content: center;
+}
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+form p {
+    margin-bottom: 10px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
