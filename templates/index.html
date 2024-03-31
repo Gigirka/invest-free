@@ -5,27 +5,27 @@
     <a href="add_job" class="btn btn-secondary">Добавить работу</a>
 {% endif %}
     <h1 align="center"> Works log</h1>
-    {% for job in jobs %}
-        <h3> Action # {{job.id}}</h3>
-        <table class="table">
-            <tr class="table-active">
-                <td  width="600px"> Title of activity </td>
-                <td  width="200px"> Team leader</td>
-                <td  width="100px"> Duration </td>
-                <td  width="300px"> List of collaborators</td>
-                <td  width="300px"> Is finished</td>
-            </tr>
-            <tr>
-                <td  class="table-info"> {{job.job}} </td>
-                <td  class="table-info"> {{job.user.name}} {{job.user.surname}}</td>
-                <td  class="table-info"> {{job.work_size}} </td>
-                <td  class="table-info"> {{job.collaborators}}</td>
-                {% if job.is_finished %}
-                <td  class="table-info"> Finished</td>
-                {% else %}
-                <td  class="table-danger"> Is not finished</td>
-                {% endif %}
-            </tr>
-        </table>
-    {% endfor %}
+<!--    {% for job in jobs %}-->
+<!--        <h3> Action # {{job.id}}</h3>-->
+<!--        <table class="table">-->
+<!--            <tr class="table-active">-->
+<!--                <td  width="600px"> Title of activity </td>-->
+<!--                <td  width="200px"> Team leader</td>-->
+<!--                <td  width="100px"> Duration </td>-->
+<!--                <td  width="300px"> List of collaborators</td>-->
+<!--                <td  width="300px"> Is finished</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td  class="table-info"> {{job.job}} </td>-->
+<!--                <td  class="table-info"> {{job.user.name}} {{job.user.surname}}</td>-->
+<!--                <td  class="table-info"> {{job.work_size}} </td>-->
+<!--                <td  class="table-info"> {{job.collaborators}}</td>-->
+<!--                {% if job.is_finished %}-->
+<!--                <td  class="table-info"> Finished</td>-->
+<!--                {% else %}-->
+<!--                <td  class="table-danger"> Is not finished</td>-->
+<!--                {% endif %}-->
+<!--            </tr>-->
+<!--        </table>-->
+<!--    {% endfor %}-->
 {% endblock %}
