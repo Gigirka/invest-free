@@ -21,9 +21,9 @@ db_session.global_init("db/mars.db")
 @app.route('/')
 def index():
     db_sess = db_session.create_session()
-    context = {}
-    context["jobs"] = db_sess.query(Jobs).all()
-    return render_template('index.html', **context)
+    # context = {}
+    # context["jobs"] = db_sess.query(Jobs).all()
+    return render_template('index.html')  # **content
 
 
 @app.route('/register-invest', methods=['GET', 'POST'])
