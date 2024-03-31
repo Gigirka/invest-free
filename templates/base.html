@@ -15,6 +15,7 @@
             <nav class="navbar navbar-light bg-light">
                 <img class="img-fluid" src="static/img/logo1.png" alt="logo" style="width:6%; margin: 15px">
                 <h1 style="margin: 15px">find-investor.com</h1>
+
                 {% if current_user.is_authenticated %}
                     <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
                 {% else %}
