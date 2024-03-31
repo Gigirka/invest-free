@@ -45,9 +45,8 @@ def reqister_invest():
             name=form.name.data,
             email=form.email.data,
             age=form.age.data,
-            position=form.position.data,
-            speciality=form.speciality.data,
-            address=form.address.data
+            money=form.money.data,
+            exp=None
         )
         user.set_password(form.password.data)
         db_sess.add(user)
@@ -75,9 +74,8 @@ def reqister_business():
             name=form.name.data,
             email=form.email.data,
             age=form.age.data,
-            position=form.position.data,
-            speciality=form.speciality.data,
-            address=form.address.data
+            exp=form.exp.data,
+            money=None
         )
         user.set_password(form.password.data)
         db_sess.add(user)
