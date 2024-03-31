@@ -40,13 +40,16 @@ def reqister_invest():
                                    form=form,
                                    message="Такой пользователь уже есть")
         user = User(
-            surname=form.name.data,
             name=form.name.data,
             email=form.email.data,
             age=form.age.data,
             position=form.position.data,
             speciality=form.speciality.data,
-            address=form.address.data
+            private_or_fund=form.private_or_fund.data,
+            qualification=form.qualification.data,
+            address=form.address.data,
+            personal=form.personal.data,
+            capital=form.capital.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)

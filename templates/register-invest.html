@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Регистрация</h1>
+<div class="text-center">
+    <h1>Регистрация</h1>
+</div>
 <form action="" method="post">
     {{ form.hidden_tag() }}
     <p>
@@ -32,15 +34,6 @@
         {% endfor %}
     </p>
     <p>
-        {{ form.surname.label }}<br>
-        {{ form.surname(class="form-control") }}<br>
-        {% for error in form.surname.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
-    <p>
         {{ form.name.label }}<br>
         {{ form.name(class="form-control") }}<br>
         {% for error in form.name.errors %}
@@ -49,6 +42,7 @@
             </p>
         {% endfor %}
     </p>
+
     <p>
         {{ form.age.label }}<br>
         {{ form.age(class="form-control") }}<br>
@@ -59,9 +53,25 @@
         {% endfor %}
     </p>
     <p>
-        {{ form.position.label }}<br>
-        {{ form.position(class="form-control") }}<br>
-        {% for error in form.position.errors %}
+        {{ form.private_or_fund.label }}<br><br>
+        {% for choice in form.private_or_fund.choices %}
+            <input type="radio" name="{{ form.private_or_fund.name }}" value="{{ choice[0] }}" id="{{ choice[0] }}">
+            <label for="{{ choice[0] }}">{{ choice[1] }}</label><br>
+        {% endfor %}
+        {% for error in form.private_or_fund.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <br>
+    <p>
+        {{ form.qualification.label }}<br><br>
+        {% for choice in form.qualification.choices %}
+            <input type="radio" name="{{ form.qualification.name }}" value="{{ choice[0] }}" id="{{ choice[0] }}">
+            <label for="{{ choice[0] }}">{{ choice[1] }}</label><br>
+        {% endfor %}
+        {% for error in form.qualification.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
@@ -71,6 +81,24 @@
         {{ form.speciality.label }}<br>
         {{ form.speciality(class="form-control") }}<br>
         {% for error in form.speciality.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.personal.label }}<br>
+        {{ form.personal(class="form-control") }}<br>
+        {% for error in form.personal.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.capital.label }}<br>
+        {{ form.capital(class="form-control") }}<br>
+        {% for error in form.capital.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
