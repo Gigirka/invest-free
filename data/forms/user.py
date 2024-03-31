@@ -19,6 +19,8 @@ class RegisterForm(FlaskForm):
     address = StringField('Адрес проживания')
     #####Для предпринимателя#############################################################################
     money = StringField('Ваш капитал')
+    company_name = StringField('Как называется ваша компания?')
+    staff = IntegerField('Сколько человек работает в вашей компании?')
 
 
 

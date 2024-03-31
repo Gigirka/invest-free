@@ -41,11 +41,9 @@ def reqister_invest():
                                    message="Такой пользователь уже есть")
         user = User(
             type='investor',
-            surname=form.name.data,
             name=form.name.data,
             email=form.email.data,
             age=form.age.data,
-            position=form.position.data,
             speciality=form.speciality.data,
             address=form.address.data,
             capital=form.capital.data,
@@ -76,11 +74,9 @@ def reqister_business():
                                    message="Такой пользователь уже есть")
         user = User(
             type='businessman',
-            surname=form.name.data,
             name=form.name.data,
             email=form.email.data,
             age=form.age.data,
-            position=form.position.data,
             speciality=form.speciality.data,
             address=form.address.data,
             money=form.money.data

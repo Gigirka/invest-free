@@ -21,15 +21,17 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
                               index=True, unique=True, nullable=True)
     money = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     exp = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+    address = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    exp = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    speciality = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     personal = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     capital = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     qualification = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     private_or_fund = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     money = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
+    company_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    staff = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
 
     jobs = orm.relationship("Jobs", back_populates='user')
 
