@@ -15,7 +15,6 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     type = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    surname = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     age = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     position = sqlalchemy.Column(sqlalchemy.String, nullable=True)
@@ -24,8 +23,14 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     email = sqlalchemy.Column(sqlalchemy.String,
                               index=True, unique=True, nullable=True)
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
-                                      default=datetime.datetime.now)
+    modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+
+    exp = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    personal = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    capital = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    qualification = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    private_or_fund = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    money = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     jobs = orm.relationship("Jobs", back_populates='user')
 

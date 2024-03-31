@@ -47,7 +47,12 @@ def reqister_invest():
             age=form.age.data,
             position=form.position.data,
             speciality=form.speciality.data,
-            address=form.address.data
+            address=form.address.data,
+            personal=form.personal.data,
+            exp=form.exp.data,
+            qualification=form.qualification.data,
+            capital=form.capital.data,
+            private_or_fund=form.private_or_fund.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
