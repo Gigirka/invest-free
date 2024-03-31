@@ -21,9 +21,9 @@ db_session.global_init("db/mars.db")
 @app.route('/')
 def index():
     db_sess = db_session.create_session()
-    # context = {}
-    # context["jobs"] = db_sess.query(Jobs).all()
-    return render_template('index.html')  # **content
+    context = {}
+    context["jobs"] = db_sess.query(Jobs).all()
+    return render_template('index.html', **context)
 
 
 @app.route('/register-invest', methods=['GET', 'POST'])
@@ -40,7 +40,6 @@ def reqister_invest():
                                    form=form,
                                    message="Такой пользователь уже есть")
         user = User(
-            type='investor',
             surname=form.name.data,
             name=form.name.data,
             email=form.email.data,
@@ -70,14 +69,13 @@ def reqister_business():
                                    form=form,
                                    message="Такой пользователь уже есть")
         user = User(
-            type='businessman',
             surname=form.name.data,
             name=form.name.data,
             email=form.email.data,
             age=form.age.data,
-            position=form.position.data,
-            speciality=form.speciality.data,
-            address=form.address.data
+            # position=form.position.data,
+            # speciality=form.speciality.data,
+            # address=form.address.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
