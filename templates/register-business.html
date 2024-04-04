@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="text-center">
+    <br>
     <h1>- Регистрация стартапа/идеи -</h1>
 </div>
 <form action="" method="post">
@@ -34,18 +35,9 @@
         {% endfor %}
     </p>
     <p>
-        {{ form.company_name.label }}<br>
-        {{ form.company_name(class="form-control") }}<br>
-        {% for error in form.company_name.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.staff.label }}<br>
-        {{ form.staff(class="form-control") }}<br>
-        {% for error in form.staff.errors %}
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control") }}<br>
+        {% for error in form.name.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
