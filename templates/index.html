@@ -1,10 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+.btn-custom {
+    display: block;
+    width: 100%;
+    margin: 10px auto;
+    padding: 20px;
+    font-size: 24px;
+    border-radius: 40px;
+    margin-bottom: 15px;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin-top: -100px;
+}
+</style>
+
 {% if current_user.is_authenticated %}
-    <a href="add_job" class="btn btn-secondary">Добавить проект</a>
+    {% if current_user.type == "investor" %}
+        <h1 align="center"> Стартапы</h1>
+    {% else %}
+        <a href="add_job" class="btn btn-secondary btn-custom">Добавить проект</a>
+        <h1 align="center">Найдите себе подходящего инвестора</h1>
+    {% endif %}
+{% else %}
+    <div class="container d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+        <p>
+            <a class="btn btn-primary btn-custom" href="/register-business">Зарегистрироваться как предприниматель</a>
+            <a class="btn btn-primary btn-custom" href="/register-invest">Зарегистрироваться как инвестор</a>
+            <a class="btn btn-success btn-custom" href="/login">Войти</a>
+        </p>
+    </div>
 {% endif %}
-    <h1 align="center"> Стартапы</h1>
+
 <!--    {% for job in jobs %}-->
 <!--        <h3> Action # {{job.id}}</h3>-->
 <!--        <table class="table">-->
