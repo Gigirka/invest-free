@@ -4,18 +4,18 @@ from wtforms.validators import DataRequired
 
 
 class InvestorRegisterForm(FlaskForm):
-    email = EmailField('Логин / email', validators=[DataRequired()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
+    email = EmailField('1. Логин / email', validators=[DataRequired()])
+    password = PasswordField('2. Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
-    name = StringField('Как вас зовут?')
-    age = IntegerField('Возраст')
+    name = StringField('3. Как вас зовут?')
+    age = IntegerField('4. Возраст')
     exp = StringField('Опыт инвестирования')
-    speciality = StringField('Образование')
-    personal = StringField('Расскажите о себе: Какие индустрии рассматриваете для инвестиций, опыт в инвестициях и т.п.')
-    capital = IntegerField('Сколько вы готовы вложить за год?')
-    qualification = RadioField('Вы являетесь квалифицированным инвестором?', choices=[('да', 'Да'), ('нет', 'Нет')])
-    private_or_fund = RadioField('Кем вы являетесь?', choices=[('fund', 'Венчурный фонд'), ('private', 'Частный инвестор')])
-    address = StringField('Адрес проживания')
+    speciality = StringField('7. Образование')
+    personal = StringField('8. Расскажите о себе: Какие индустрии рассматриваете для инвестиций, опыт в инвестициях и т.п.')
+    capital = IntegerField('9. Сколько вы готовы вложить за год? (в ₽)')
+    qualification = RadioField('6. Вы являетесь квалифицированным инвестором?', choices=[('да', 'Да'), ('нет', 'Нет')])
+    private_or_fund = RadioField('5. Кем вы являетесь?', choices=[('fund', 'Венчурный фонд'), ('private', 'Частный инвестор')])
+    address = StringField('10. Адрес проживания')
 
     submit = SubmitField('Зарегистрироваться')
 

@@ -34,7 +34,6 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     company_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     staff = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-
     jobs = orm.relationship("Jobs", back_populates='user')
 
     def set_password(self, password):
