@@ -1,7 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    .btn-custom {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        display: block;
+        width: 25%;
+        margin: 10px auto;
+        padding: 20px;
+        font-size: 30px;
+        border-radius: 40px;
+        margin-bottom: 15px;
+    }
+    .btn-custom1 {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        display: block;
+        width: 25%;
+        margin: 10px auto;
+        padding: 20px;
+        font-size: 30px;
+        border-radius: 40px;
+        margin-bottom: 15px;
+    }
+
+    .btn-orange {
+        background-color: #FF8307;
+        color: white;
+        border-color: #FF8307;
+    }
+    .btn-orange:hover {
+        background-color: #FF8307;
+    }
+
+     label {
+        font-weight: bold; /* Жирный текст */
+        font-size: 18px; /* Увеличенный размер */
+    }
+</style>
+<div class="text-center">
+    <br>
     <h1>Авторизация</h1>
+</div>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
@@ -23,7 +64,7 @@
             {% endfor %}
         </p>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary btn-custom btn-orange") }}</p>
         <div>{{ message }}</div>
     </form>
 {% endblock %}

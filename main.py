@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, make_response, jsonify
 from data import db_session
 from data.api import jobs_api, users_resource
 from data.forms.login import LoginForm
-from data.forms.user import RegisterForm
+from data.forms.user import InvestorRegisterForm, BusinessmanRegisterForm
 from flask_login import LoginManager, login_user, login_required, logout_user
 from data.jobs import Jobs
 from data.users import User
@@ -21,14 +21,14 @@ db_session.global_init("db/mars.db")
 @app.route('/')
 def index():
     db_sess = db_session.create_session()
-    context = {}
-    context["jobs"] = db_sess.query(Jobs).all()
-    return render_template('index.html', **context)
+    # context = {}
+    # context["jobs"] = db_sess.query(Jobs).all()
+    return render_template('index.html', title="Добро пожаловать на find-investor.com")
 
 
 @app.route('/register-invest', methods=['GET', 'POST'])
 def reqister_invest():
-    form = RegisterForm()
+    form = InvestorRegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
             return render_template('register-invest.html', title='Регистрация',
@@ -40,18 +40,18 @@ def reqister_invest():
                                    form=form,
                                    message="Такой пользователь уже есть")
         user = User(
-            surname=form.name.data,
+            type='investor',
             name=form.name.data,
             email=form.email.data,
             age=form.age.data,
-            position=form.position.data,
             speciality=form.speciality.data,
             address=form.address.data,
-            personal=form.personal.data,
-            experience=form.experience.data,
-            qualification=form.qualification.data,
             capital=form.capital.data,
-            private_or_fund=form.private_or_fund.data
+            exp=form.exp.data,
+            personal=form.personal.data,
+            qualification=form.qualification.data,
+            private_or_fund=form.private_or_fund.data,
+            password=form.password.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
@@ -62,25 +62,22 @@ def reqister_invest():
 
 @app.route('/register-business', methods=['GET', 'POST'])
 def reqister_business():
-    form = RegisterForm()
+    form = BusinessmanRegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
-            return render_template('register-business.html', title='Регистрация',
-                                   form=form,
-                                   message="Пароли не совпадают")
+            return render_template('register-business.html', title='Регистрация', form=form, message='Пароли не совпадают')
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register-business.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
         user = User(
-            surname=form.name.data,
-            name=form.name.data,
+            type='businessman',
+            company_name=form.company_name.data,
             email=form.email.data,
-            age=form.age.data,
-            # position=form.position.data,
-            # speciality=form.speciality.data,
-            # address=form.address.data
+            money=form.money.data,
+            password = form.password.data,
+            staff=form.staff.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
