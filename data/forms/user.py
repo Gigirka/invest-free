@@ -1,20 +1,31 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, TextAreaField, SubmitField, EmailField, IntegerField, SelectField, RadioField
+from wtforms import PasswordField, StringField, TextAreaField, SubmitField, EmailField, IntegerField, RadioField
 from wtforms.validators import DataRequired
 
 
-class RegisterForm(FlaskForm):
+class InvestorRegisterForm(FlaskForm):
+    email = EmailField('1. Логин / email', validators=[DataRequired()])
+    password = PasswordField('2. Пароль', validators=[DataRequired()])
+    password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
+    name = StringField('3. Как вас зовут?')
+    age = IntegerField('4. Возраст')
+    exp = StringField('Опыт инвестирования')
+    speciality = StringField('7. Образование')
+    personal = StringField('8. Расскажите о себе: Какие индустрии рассматриваете для инвестиций, опыт в инвестициях и т.п.')
+    capital = IntegerField('9. Сколько вы готовы вложить за год? (в ₽)')
+    qualification = RadioField('6. Вы являетесь квалифицированным инвестором?', choices=[('да', 'Да'), ('нет', 'Нет')])
+    private_or_fund = RadioField('5. Кем вы являетесь?', choices=[('fund', 'Венчурный фонд'), ('private', 'Частный инвестор')])
+    address = StringField('10. Адрес проживания')
+
+    submit = SubmitField('Зарегистрироваться')
+
+class BusinessmanRegisterForm(FlaskForm):
     email = EmailField('Логин / email', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
-    name = StringField('Имя и фамилия', validators=[DataRequired()])
-    age = IntegerField('Возраст', validators=[DataRequired()])
-    position = StringField('Position', validators=[DataRequired()])
-    experience = StringField('Опыт инвестирования', validators=[DataRequired()])
-    speciality = StringField('Образование', validators=[DataRequired()])
-    personal = StringField('Расскажите о себе: Какие индустрии рассматриваете для инвестиций, опыт в инвестициях и т.п.', validators=[DataRequired()])
-    capital = IntegerField('Сколько вы готовы вложить за год?', validators=[DataRequired()])
-    qualification = RadioField('Вы являетесь квалифицированным инвестором?', choices=[('да', 'Да'), ('нет', 'Нет')])
-    private_or_fund = RadioField('Кем вы являетесь?', choices=[('fund', 'Венчурный фонд'), ('private', 'Частный инвестор')])
-    address = StringField('Адрес', validators=[DataRequired()])
+    money = StringField('Ваш капитал')
+    name = StringField('Как вас зовут?')
+    company_name = StringField('Как называется ваша компания?')
+    staff = IntegerField('Сколько человек работает в вашей компании?')
+
     submit = SubmitField('Зарегистрироваться')

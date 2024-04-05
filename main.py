@@ -23,7 +23,7 @@ def index():
     db_sess = db_session.create_session()
     # context = {}
     # context["jobs"] = db_sess.query(Jobs).all()
-    return render_template('index.html', title="Добро пожаловать на find-investor.com")
+    return render_template('index.html')  # **content
 
 
 @app.route('/register-invest', methods=['GET', 'POST'])
