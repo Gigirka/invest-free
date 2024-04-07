@@ -6,6 +6,11 @@
     <h1>Привлеките инвесторов в свой проект</h1>
 </div>
 
+<!--<form enctype="multipart/form-data" method="post">-->
+<!--            <input type="file" name=product_img id="product_img"><br>-->
+<!--            <input type="submit" value="Submit">-->
+<!--    </form>-->
+
 <form action="" method="post">
     {{ form.hidden_tag() }}
     <p>
@@ -18,9 +23,9 @@
     {% endfor %}
     </p>
     <p>
-        {{ form.team_leader.label }}<br>
-        {{ form.team_leader(class="form-control") }}<br>
-        {% for error in form.team_leader.errors %}
+        {{ form.owner.label }}<br>
+        {{ form.owner(class="form-control") }}<br>
+        {% for error in form.owner.errors %}
     <p class="alert alert-danger" role="alert">
         {{ error }}
     </p>
@@ -44,10 +49,31 @@
     </p>
     {% endfor %}
     </p>
-    <p>Загрузите превью вашего проекта</p>
-   <p><input type="file" name="photo" multiple accept="image/*,image/jpeg">
-       </p>
+<!--    <p>-->
+<!--        {{ form.image.label }}<br>-->
+<!--        {{ form.image(class="form-control") }}<br>-->
+<!--        {% for error in form.image.errors %}-->
+<!--    <p class="alert alert-danger" role="alert">-->
+<!--        {{ error }}-->
+<!--    </p>-->
+<!--    {% endfor %}-->
+<!--    </p>-->
+
+<!--     <p>-->
+<!--        {{ form.image.label }}<br>-->
+<!--        {{ form.image(type="file", accept="image/*,image/jpeg") }}<br>-->
+<!--        {% for error in form.image.errors %}-->
+<!--    <p class="alert alert-danger" role="alert">-->
+<!--        {{ error }}-->
+<!--    </p>-->
+<!--    {% endfor %}-->
+<!--    </p>-->
+
+
 <!--    <p>{{ form.is_finished() }} {{ form.is_finished.label }}</p>-->
+<!--    {{ form.photo }}-->
+<!--    <input type="file" name="file" />-->
+
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 </form>
