@@ -44,7 +44,10 @@ def reqister_invest():
                                    form=form,
                                    message="Такой пользователь уже есть")
         image_file = form.image.data
-        image_data = image_file.read()
+        if image_file:
+            image_data = image_file.read()
+        else:
+            image_data = None
         user = User(
             type='investor',
             name=form.name.data,
@@ -79,7 +82,10 @@ def reqister_business():
                                    form=form,
                                    message="Такой пользователь уже есть")
         image_file = form.image.data
-        image_data = image_file.read()
+        if image_file:
+            image_data = image_file.read()
+        else:
+            image_data = None
         user = User(
             type='businessman',
             email=form.email.data,
@@ -123,7 +129,10 @@ def add_job():
         db_sess = db_session.create_session()
 
         image_file = add_form.image.data
-        image_data = image_file.read()
+        if image_file:
+            image_data = image_file.read()
+        else:
+            image_data = None
         jobs = Jobs(job=add_form.job.data,
                     work_size=add_form.work_size.data,
                     image=image_data)
