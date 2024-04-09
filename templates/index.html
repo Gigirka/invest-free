@@ -3,16 +3,33 @@
 {% block content %}
 <style>
     body {
-        background-image: url("static/img/4.jpg");
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
+      background-image: url("static/img/4.jpg");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      animation: move-bg 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes move-bg {
+      0% { background-position: center -30px; }
+      100% { background-position: center -120px; }
     }
     .btn-custom {
         font-family: 'Open Sans', sans-serif;
         font-weight: bold;
         display: block;
-        width: 100%;
+        width: 90%;
+        margin: 10px auto;
+        padding: 20px;
+        font-size: 25px;
+        border-radius: 40px;
+        margin-bottom: 15px;
+    }
+    .btn-custom-login {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        display: block;
+        width: 80%;
         margin: 10px auto;
         padding: 20px;
         font-size: 25px;
@@ -22,7 +39,7 @@
     .btn-custom3 {
         font-family: 'Open Sans', sans-serif;
         font-weight: bold;
-        display: адлу;
+        display: block;
         width: 70%;
         margin: 10px auto;
         padding: 15px 30px;
@@ -34,6 +51,7 @@
         width: 35%;
         display: flex;
         flex-direction: column;
+        align-items: center;
         min-height: 100vh;
         margin-top: auto;
         margin-left: auto;
@@ -80,7 +98,7 @@
             </a>
             <a class="btn btn-primary btn-custom btn-orange" href="/register-business">Стать предпринимателем</a>
             <a class="btn btn-primary btn-custom btn-orange" href="/register-invest">Стать инвестором</a>
-            <a class="btn btn-success btn-custom btn-green" href="/login">Войти</a>
+            <a class="btn btn-success btn-custom-login btn-green" href="/login">Войти</a>
         </p>
     </div>
 {% endif %}
