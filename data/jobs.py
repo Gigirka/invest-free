@@ -1,7 +1,7 @@
 import datetime
 import sqlalchemy
+from flask_wtf.file import FileField
 from sqlalchemy import orm
-from sqlalchemy.testing import db
 from sqlalchemy_serializer import SerializerMixin
 from .db_session import SqlAlchemyBase
 
@@ -11,24 +11,8 @@ class Jobs(SqlAlchemyBase, SerializerMixin):
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
-    owner = sqlalchemy.Column(sqlalchemy.Integer,
-                                    sqlalchemy.ForeignKey("users.id"))
+
     job = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     work_size = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    collaborators = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    start_date = sqlalchemy.Column(sqlalchemy.DateTime,
-                                   default=datetime.datetime.now)
-    end_date = sqlalchemy.Column(sqlalchemy.DateTime,
-                                 default=datetime.datetime.now)
-    is_finished = sqlalchemy.Column(sqlalchemy.Boolean, default=True)
     image = sqlalchemy.Column(sqlalchemy.BLOB, nullable=True)
-    # id = db.SequenceField()
-    # owner = db.StringField()
-    # job = db.StringField()
-    # work_size = db.IntField()
-    # collaborators = db.StringField()
-    # is_finished = db.BooleanField()
-    # image = db.FileField()
-
-
-    user = orm.relationship('User')
+    # user = orm.relationship('User')

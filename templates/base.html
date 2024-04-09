@@ -11,25 +11,49 @@
         <title>{{title}}</title>
     </head>
     <body>
+        {% if current_user.is_authenticated %}
         <header>
             <nav class="navbar navbar-light bg-light row align-items-center">
-                <div class="col-1 text-end">
-                    <a href="/">
-                        <img class="img-fluid" src="static/img/logo2.png" alt="Логотип Find-Investor" width="60%">
-                    </a>
-                </div>
                 <div class="col-11 d-flex align-items-center">
-                    <h1>find-investor.com</h1>
-                    {% if current_user.is_authenticated %}
-                    <div class="container1 col-2 d-flex align-items-right">
-                            <a href="add_job" class="btn btn-secondary btn-custom1">Добавить проект</a>
-                            <a class="navbar-brand ms-3" href="/logout">{{ current_user.name }}</a>
+                    <div class="col-2 text-end" style="margin-left: 15px;">
+                        <a href="/">
+                            <img class="img-fluid" src="static/img/logo_main_web1.png" alt="Логотип Find-Investor" width="100%">
+                        </a>
                     </div>
-                    {% endif %}
+                        {% if current_user.type == "investor" %}
+                            <div class="container1 col-2 d-flex align-items-right">
+                                <a href="add_job" class="btn btn-secondary btn-custom3">Ваши проекты</a>
+                                <a href="add_job" class="btn btn-secondary btn-custom3">Профиль</a>
+                                <a class="navbar-brand ms-3" href="/logout">{{current_user.name}}</a>
+                            </div>
+                        {% else %}
+                            <div class="container1 col-2 d-flex align-items-right">
+                                <a href="add_job" class="btn btn-secondary btn-custom3">Ваши проекты</a>
+                                <a href="add_job" class="btn btn-secondary btn-custom3">Добавить проект</a>
+                                <a class="navbar-brand ms-3" href="/logout">{{current_user.name}}</a>
+                            </div>
+                        {% endif %}
+
                 </div>
 
             </nav>
         </header>
+        {% else %}
+            {% if not(current_user.is_authenticated) and request.path != "/" %}
+                <header>
+                    <nav class="navbar navbar-light bg-light row align-items-center">
+                        <div class="col-11 d-flex align-items-center">
+                            <div class="col-2 text-end" style="margin-left: 15px;">
+                                <a href="/">
+                                    <img class="img-fluid" src="static/img/logo_main_web1.png" alt="Логотип Find-Investor" width="100%">
+                                </a>
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+        {% endif %}
+        {% endif %}
+
         <main role="main" class="container">
             {% block content %}{% endblock %}
         </main>

@@ -6,74 +6,36 @@
     <h1>Привлеките инвесторов в свой проект</h1>
 </div>
 
-<!--<form enctype="multipart/form-data" method="post">-->
-<!--            <input type="file" name=product_img id="product_img"><br>-->
-<!--            <input type="submit" value="Submit">-->
-<!--    </form>-->
-
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <p>
         {{ form.job.label }}<br>
         {{ form.job(class="form-control") }}<br>
         {% for error in form.job.errors %}
-    <p class="alert alert-danger" role="alert">
-        {{ error }}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+        {% endfor %}
     </p>
-    {% endfor %}
-    </p>
-    <p>
-        {{ form.owner.label }}<br>
-        {{ form.owner(class="form-control") }}<br>
-        {% for error in form.owner.errors %}
-    <p class="alert alert-danger" role="alert">
-        {{ error }}
-    </p>
-    {% endfor %}
-    </p>
+
     <p>
         {{ form.work_size.label }}<br>
         {{ form.work_size(class="form-control") }}<br>
         {% for error in form.work_size.errors %}
-    <p class="alert alert-danger" role="alert">
-        {{ error }}
-    </p>
-    {% endfor %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+        {% endfor %}
     </p>
     <p>
-        {{ form.collaborators.label }}<br>
-        {{ form.collaborators(class="form-control") }}<br>
-        {% for error in form.collaborators.errors %}
-    <p class="alert alert-danger" role="alert">
-        {{ error }}
+        {{ form.image.label }}<br>
+        {{ form.image(type="file", accept="image/*") }}<br>
+        {% for error in form.image.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
     </p>
-    {% endfor %}
-    </p>
-<!--    <p>-->
-<!--        {{ form.image.label }}<br>-->
-<!--        {{ form.image(class="form-control") }}<br>-->
-<!--        {% for error in form.image.errors %}-->
-<!--    <p class="alert alert-danger" role="alert">-->
-<!--        {{ error }}-->
-<!--    </p>-->
-<!--    {% endfor %}-->
-<!--    </p>-->
-
-<!--     <p>-->
-<!--        {{ form.image.label }}<br>-->
-<!--        {{ form.image(type="file", accept="image/*,image/jpeg") }}<br>-->
-<!--        {% for error in form.image.errors %}-->
-<!--    <p class="alert alert-danger" role="alert">-->
-<!--        {{ error }}-->
-<!--    </p>-->
-<!--    {% endfor %}-->
-<!--    </p>-->
-
-
-<!--    <p>{{ form.is_finished() }} {{ form.is_finished.label }}</p>-->
-<!--    {{ form.photo }}-->
-<!--    <input type="file" name="file" />-->
-
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 </form>

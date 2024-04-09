@@ -1,10 +1,4 @@
-import os
-import sqlite3
-
-from io import BytesIO
-from flask import Flask, render_template, redirect, make_response, jsonify, request, send_file
-from werkzeug.utils import secure_filename
-
+from flask import Flask, render_template, redirect, make_response, jsonify
 from data import db_session
 from data.api import jobs_api, users_resource
 from data.forms.login import LoginForm
@@ -71,8 +65,7 @@ def reqister_business():
     form = BusinessmanRegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
-            return render_template('register-business.html', title='Регистрация', form=form,
-                                   message='Пароли не совпадают')
+            return render_template('register-business.html', title='Регистрация', form=form, message='Пароли не совпадают')
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register-business.html', title='Регистрация',
@@ -83,7 +76,7 @@ def reqister_business():
             company_name=form.company_name.data,
             email=form.email.data,
             money=form.money.data,
-            password=form.password.data,
+            password = form.password.data,
             staff=form.staff.data
         )
         user.set_password(form.password.data)
@@ -118,83 +111,21 @@ def logout():
 @app.route('/add_job', methods=['GET', 'POST'])
 @login_required
 def add_job():
-    global job_data
-    global owner_data
-    global work_size_data
-    global collaborators_data
     add_form = AddJobForm()
     if add_form.validate_on_submit():
-        job_data = add_form.job.data,
-        owner_data = add_form.owner.data,
-        work_size_data = add_form.work_size.data,
-        collaborators_data = add_form.collaborators.data
+        db_sess = db_session.create_session()
 
-        return redirect("/add_image")
+        image_file = add_form.image.data
+        image_data = image_file.read()  # Read image data as bytes
+        jobs = Jobs(job=add_form.job.data,
+                    work_size=add_form.work_size.data,
+                    image=image_data)
+                    # is_finished=add_form.is_finished.data)
+        db_sess.add(jobs)
+        db_sess.commit()
+        return redirect("/")
     return render_template('add_job.html', title='Добавление работы',
                            form=add_form)
-
-
-@app.route('/add_image', methods=['GET', 'POST'])
-@login_required
-def add_image():
-    global job_data
-    global owner_data
-    global work_size_data
-    global collaborators_data
-    # print(job_data, owner_data, work_size_data, collaborators_data)
-    # print(request.form)
-    # add_form = AddJobForm()
-    # if add_form.validate_on_submit():
-    #     db_sess = db_session.create_session()
-    #     # print(add_form.image.file)
-    #     # filename = secure_filename(add_form.image.file.filename)
-    #     # file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    #     # form.fileName.file.save(file_path)
-    #     # print(add_form.image.data)
-    #     # print(request.files)
-    #     # file = request.form['file']
-    #     # print(file)
-    #     # f = open(add_form.image.data, 'rb')
-    #     # print(f)
-    #     # print(add_form.image.read())
-    #     # room_image = request.files
-    #     # print(room_image)
-    #     # img_name = add_form.image.data
-    #     # print(img_name)
-    #     # product_img = readImage(img_name)
-    #     # print(product_img)
-    #     # product_img_binary = sqlite3.Binary(product_img)
-    #     jobs = Jobs(job=job_data,
-    #                 owner=owner_data,
-    #                 work_size=work_size_data,
-    #                 collaborators=collaborators_data)
-    #     # image=add_form.image.data)
-    #     # is_finished=add_form.is_finished.data)
-    #     db_sess.add(jobs)
-    #     db_sess.commit()
-    return render_template('add_image.html')
-    # return render_template('add_image.html', title='Добавление работы',
-    #                        form=add_form)
-
-
-@app.route('/success', methods=['POST'])
-def success():
-    if request.method == 'POST':
-        f = request.files['file']
-        print(f)
-        a = open(f.filename, 'rb')
-        print(a)
-        f.save(f.filename)
-        return redirect("/")
-
-
-def readImage(img_name):
-    try:
-        fin = open(img_name, 'rb')
-        img = fin.read()
-        return img
-    except:
-        print("ERROR!!")
 
 
 @login_manager.user_loader
