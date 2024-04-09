@@ -2,6 +2,12 @@
 
 {% block content %}
 <style>
+    body {
+        background-image: url("static/img/4.jpg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
     .btn-custom {
         font-family: 'Open Sans', sans-serif;
         font-weight: bold;
@@ -13,19 +19,32 @@
         border-radius: 40px;
         margin-bottom: 15px;
     }
+    .btn-custom3 {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        display: адлу;
+        width: 70%;
+        margin: 10px auto;
+        padding: 15px 30px;
+        font-size: 20px;
+        border-radius: 40px;
+        margin-bottom: 0px;
+    }
     .container0 {
+        width: 35%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
         min-height: 100vh;
-        margin-top: -100px;
+        margin-top: auto;
+        margin-left: auto;
+        margin-right: auto;
     }
     .container1 {
+        width: 35%;
         display: flex;
         flex-direction: row;
-        align-items: right;
-        margin-left: auto;
+        align-items: center;
+        margin-left: 50%;
     }
     .btn-orange {
         background-color: #FF8307;
@@ -47,15 +66,20 @@
 
 {% if current_user.is_authenticated %}
     {% if current_user.type == "investor" %}
-        <h1 align="center"> Стартапы</h1>
+        <br>
+        <h1 align="center" style="color: white;"> Стартапы</h1>
     {% else %}
-        <h1 align="center">Найдите себе подходящего инвестора</h1>
+        <br>
+        <h1 align="center" style="color: white;">Найдите себе подходящего инвестора</h1>
     {% endif %}
 {% else %}
-    <div class="container0 d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="container0 d-flex flex-column justify-content-center align-items-center" >
         <p>
-            <a class="btn btn-primary btn-custom btn-orange" href="/register-business">Зарегистрироваться как предприниматель</a>
-            <a class="btn btn-primary btn-custom btn-orange" href="/register-invest">Зарегистрироваться как инвестор</a>
+            <a href="/">
+                <img class="img-fluid" src="static/img/logo_main_web1.png" alt="Логотип Find-Investor" width="100%">
+            </a>
+            <a class="btn btn-primary btn-custom btn-orange" href="/register-business">Стать предпринимателем</a>
+            <a class="btn btn-primary btn-custom btn-orange" href="/register-invest">Стать инвестором</a>
             <a class="btn btn-success btn-custom btn-green" href="/login">Войти</a>
         </p>
     </div>

@@ -114,10 +114,12 @@ def add_job():
     add_form = AddJobForm()
     if add_form.validate_on_submit():
         db_sess = db_session.create_session()
+
+        image_file = add_form.image.data
+        image_data = image_file.read()  # Read image data as bytes
         jobs = Jobs(job=add_form.job.data,
-                    team_leader=add_form.team_leader.data,
                     work_size=add_form.work_size.data,
-                    collaborators=add_form.collaborators.data)
+                    image=image_data)
                     # is_finished=add_form.is_finished.data)
         db_sess.add(jobs)
         db_sess.commit()
