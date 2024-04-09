@@ -1,9 +1,13 @@
-from flask import Flask, render_template, redirect, make_response, jsonify
+import base64
+import io
+import sqlite3
+from PIL import Image, ImageDraw
+from flask import Flask, render_template, redirect, make_response, jsonify, send_file
 from data import db_session
 from data.api import jobs_api, users_resource
 from data.forms.login import LoginForm
 from data.forms.user import InvestorRegisterForm, BusinessmanRegisterForm
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from data.jobs import Jobs
 from data.users import User
 from data.forms.add_job import AddJobForm
@@ -39,10 +43,13 @@ def reqister_invest():
             return render_template('register-invest.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
+        image_file = form.image.data
+        image_data = image_file.read()
         user = User(
             type='investor',
             name=form.name.data,
             email=form.email.data,
+            image=image_data,
             age=form.age.data,
             speciality=form.speciality.data,
             address=form.address.data,
@@ -71,13 +78,13 @@ def reqister_business():
             return render_template('register-business.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
+        image_file = form.image.data
+        image_data = image_file.read()
         user = User(
             type='businessman',
-            company_name=form.company_name.data,
             email=form.email.data,
-            money=form.money.data,
-            password = form.password.data,
-            staff=form.staff.data
+            password=form.password.data,
+            image=image_data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
@@ -116,7 +123,7 @@ def add_job():
         db_sess = db_session.create_session()
 
         image_file = add_form.image.data
-        image_data = image_file.read()  # Read image data as bytes
+        image_data = image_file.read()
         jobs = Jobs(job=add_form.job.data,
                     work_size=add_form.work_size.data,
                     image=image_data)
@@ -143,6 +150,52 @@ def not_found(error):
 def bad_request(_):
     return make_response(jsonify({'error': 'Bad Request'}), 400)
 
+
+import io
+import sqlite3
+from PIL import Image, ImageDraw
+from flask import send_file
+
+def get_profile_picture():
+    conn = sqlite3.connect("db/mars.db")
+    cursor = conn.cursor()
+    user_id = current_user.id
+    cursor.execute("SELECT image FROM users WHERE id=?", (user_id,))
+    image_data = cursor.fetchone()[0]
+    conn.close()
+
+    if image_data:  # Преобразование изображения в круг
+        try:
+            image = Image.open(io.BytesIO(image_data))
+
+            width, height = image.size
+            size = min(width, height)
+            left = (width - size) / 2
+            top = (height - size) / 2
+            right = (width + size) / 2
+            bottom = (height + size) / 2
+            image = image.crop((left, top, right, bottom))
+
+            mask = Image.new('L', image.size, 0)
+            draw = ImageDraw.Draw(mask)
+            draw.ellipse((0, 0) + image.size, fill=255)
+            image.putalpha(mask)
+            output = io.BytesIO()
+            image.save(output, format='PNG')
+            output.seek(0)
+
+            return send_file(output, mimetype='image/png')
+
+        except Exception as e:
+            # изображение по умолчанию
+            return send_file('static/img/default-profile-image.jpg', mimetype='image/jpeg')
+
+    else:
+        # Возвращаем изображение по умолчанию
+        return send_file('static/img/default-profile-image.jpg', mimetype='image/jpeg')
+@app.route('/profile_picture')
+def get_profile_picture_route():
+    return get_profile_picture()
 
 if __name__ == '__main__':
     app.register_blueprint(jobs_api.blueprint)
