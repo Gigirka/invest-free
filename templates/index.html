@@ -81,6 +81,63 @@
     .btn-green:hover {
         background-color: #6EE16E;
     }
+    .registration-block {
+        background-color: white;
+        padding: 10px;
+        border-radius: 70px;
+        width: 35%;
+        margin: 0 auto;
+    }
+    .registration-block img {
+        display: block;
+        margin: 0 auto 15px auto;
+    }
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container-of-left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .left-content {
+        background-color: white;
+        padding: 40px;
+        border-radius: 30px;
+        margin-bottom: 30px;
+        width: 60%;
+    }
+    .left-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 50%; /* Adjust as needed */
+}
+
+.top-block {
+    background-color: white;
+    padding: 20px;
+    border-radius: 70px;
+    text-align: center;
+    margin-bottom: 20px; /* Adjust spacing as needed */
+}
+
+.square-blocks-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-gap: 25px; /* Adjust spacing as needed */
+}
+
+.square-block {
+    background-color: white;
+    padding: 50px;
+    text-align: center;
+    border-radius: 20px; /* Adjust corner radius as needed */
+}
+
 </style>
 
 {% if current_user.is_authenticated %}
@@ -92,16 +149,39 @@
         <h1 align="center" style="color: white;">Найдите себе подходящего инвестора</h1>
     {% endif %}
 {% else %}
-    <div class="container0 d-flex flex-column justify-content-center align-items-center" >
-        <p>
-            <a href="/">
-                <img class="img-fluid" src="static/img/logo_main_web1.png" alt="Логотип Find-Investor" width="100%">
-            </a>
-            <a class="btn btn-primary btn-custom btn-orange" href="/register-business">Стать предпринимателем</a>
-            <a class="btn btn-primary btn-custom btn-orange" href="/register-invest">Стать инвестором</a>
-            <a class="btn btn-success btn-custom-login btn-green" href="/login">Войти</a>
-        </p>
+
+<div class="container">
+    <div class="left-content-wrapper">
+        <div class="top-block"><h2>Почему именно мы?</h2></div>
+        <div class="square-blocks-container">
+            <div class="square-block">
+                <h2>Много опыта</h2>
+                <p>Почти месяц на рынке</p>
+            </div>
+            <div class="square-block">
+                <h2>Нам доверяют</h2>
+                <p>Больше 1 трлн ₽ инвестировано</p>
+            </div>
+            <div class="square-block">
+                 <h2>Нет конкурентов</h2>
+                <p>Нет конкурентов</p>
+            </div>
+            <div class="square-block">
+                                <h2>Надёжно</h2>
+                <p>Очень</p>
+            </div>
+        </div>
     </div>
+
+    <div class="registration-block">
+        <a href="/">
+            <img class="img-fluid" src="static/img/logo_main_web1.png" alt="Логотип Find-Investor" width="100%" style="margin-bottom: 30px;">
+        </a>
+        <a class="btn btn-primary btn-custom btn-orange" href="/register-business">Стать предпринимателем</a>
+        <a class="btn btn-primary btn-custom btn-orange" href="/register-invest">Стать инвестором</a>
+        <a class="btn btn-success btn-custom-login btn-green" href="/login">Войти</a>
+    </div>
+</div>
 {% endif %}
 
 <!--    {% for job in jobs %}-->
