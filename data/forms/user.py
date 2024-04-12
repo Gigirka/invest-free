@@ -10,11 +10,11 @@ class InvestorRegisterForm(FlaskForm):
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
     name = StringField('3. Как вас зовут?')
     personal = StringField(
-        '5. Расскажите о себе: Какие индустрии рассматриваете для инвестиций, опыт в инвестициях и т.п.')
-    capital = IntegerField('6. Сколько вы готовы вложить за год? (в ₽)')
-    private_or_fund = RadioField('4. Кем вы являетесь?',
+        '6. Расскажите о себе: Какие индустрии рассматриваете для инвестиций, опыт в инвестициях и т.п.')
+    capital = IntegerField('7. Сколько вы готовы вложить за год? (в ₽)')
+    private_or_fund = RadioField('5. Кем вы являетесь?',
                                  choices=[('fund', 'Венчурный фонд'), ('private', 'Частный инвестор')])
-    image = FileField('Загрузите фото профиля')
+    image = FileField('4. Загрузите фото профиля')
 
     submit = SubmitField('Зарегистрироваться')
 

@@ -2,29 +2,37 @@
 
 {% block content %}
 <style>
+    body {
+      background-image: url("static/img/4.jpg");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      animation: move-bg 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes move-bg {
+      0% { background-position: center -30px; }
+      100% { background-position: center -120px; }
+    }
+    .page-link {
+        opacity: 0.5;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .page-link.active {
+        opacity: 1;
+    }
     .btn-custom {
         font-family: 'Open Sans', sans-serif;
         font-weight: bold;
         display: block;
-        width: 25%;
+        width: 30%;
         margin: 10px auto;
         padding: 20px;
-        font-size: 30px;
+        font-size: 25px;
         border-radius: 40px;
         margin-bottom: 15px;
     }
-    .btn-custom1 {
-        font-family: 'Open Sans', sans-serif;
-        font-weight: bold;
-        display: block;
-        width: 25%;
-        margin: 10px auto;
-        padding: 20px;
-        font-size: 30px;
-        border-radius: 40px;
-        margin-bottom: 15px;
-    }
-
     .btn-orange {
         background-color: #FF8307;
         color: white;
@@ -33,15 +41,31 @@
     .btn-orange:hover {
         background-color: #FF8307;
     }
+    label {
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .registration-block {
+        background-color: white;
+        padding: 60px;
+        border-radius: 130px;
+        width: 60%;
+        height: auto;
+        margin: auto;
+    }
+    .registration-block img {
+        display: block;
 
-     label {
-        font-weight: bold; /* Жирный текст */
-        font-size: 18px; /* Увеличенный размер */
+    }
+    h1{
+        font-size: 45px;
     }
 </style>
+<br><br><br>
+<div class="registration-block">
 <div class="text-center">
-    <br>
     <h1>Авторизация</h1>
+    <br>
 </div>
     <form action="" method="post">
         {{ form.hidden_tag() }}
@@ -67,4 +91,5 @@
         <p>{{ form.submit(type="submit", class="btn btn-primary btn-custom btn-orange") }}</p>
         <div>{{ message }}</div>
     </form>
+</div>
 {% endblock %}
