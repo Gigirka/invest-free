@@ -85,11 +85,43 @@
       text-decoration: none;
       margin-right: 10px;
     }
+
+
+    .project-container {
+        display: flex;
+        width: 100%;
+        align-items: center;
+    }
+
+    .project-image {
+        width: 100%;
+        margin-right: 50px;
+    }
+    h1{
+      font-size: 50px
+    }
+    p{
+      font-size: 25px
+    }
+    .project-image img {
+        max-width: 100%;
+        height: 100%;
+    }
 </style>
-<div class="text-center">
-    <br>
-     <a href="/" class="back-link">⬅ Вернуться назад</a>
+
+<div class="project-container">
+    <div class="project-image">
+        <img src="{{ url_for('get_project_picture_route', project_id=project.id) }}" alt="Project Image">
+    </div>
+
+    <div class="project-info">
+        <a href="/" class="back-link">⬅ Вернуться назад</a>
+        <h1>{{ project.project_name }}</h1>
+        <p>Опубликовано: {{ project.date[:19] }}</p>
+        <p>{{ project.info }}</p>
+        <p>Кол-во работников: {{ project.work_size }}</p>
+
+    </div>
 
 </div>
-
 {% endblock %}

@@ -92,21 +92,6 @@ def reqister_business():
         return redirect('/login')
     return render_template('register-business.html', title='Регистрация', form=form)
 
-@app.route('/open-project/<int:project_id>', methods=['GET', 'POST'])
-@login_required
-def open_project(project_id):
-    conn = sqlite3.connect("db/mars.db")
-    cursor = conn.cursor()
-    info_data = cursor.execute("SELECT info FROM jobs WHERE id=?", (project_id,)).fetchone()[0]
-    project_name_data = cursor.execute("SELECT project_name FROM jobs WHERE id=?", (project_id,)).fetchone()[0]
-    work_size_data = cursor.execute("SELECT work_size FROM jobs WHERE id=?", (project_id,)).fetchone()[0]
-    conn.close()
-    return render_template('open-project.html', title='Страница проекта',
-                           info=info_data,
-                           name=project_name_data,
-                           work_size=work_size_data)
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -229,6 +214,26 @@ def get_project_picture(project_id):
 @app.route('/project_picture/<int:project_id>')
 def get_project_picture_route(project_id):
     return get_project_picture(project_id)
+
+
+@app.route('/open-project/<int:project_id>', methods=['GET', 'POST'])
+def open_project(project_id):
+    conn = sqlite3.connect("db/mars.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM jobs WHERE id=?", (project_id,))
+    project_data = cursor.fetchone()
+    conn.close()
+    project = {
+        'id': project_data[0],
+        'project_name': project_data[1],
+        'work_size': project_data[2],
+        'date': project_data[6],
+        'info': project_data[5]
+    }
+    return render_template('open-project.html', title='Страница проекта', project=project)
+
+
+
 
 if __name__ == '__main__':
     app.register_blueprint(jobs_api.blueprint)
