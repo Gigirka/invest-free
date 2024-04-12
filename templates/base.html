@@ -10,6 +10,17 @@
         <link rel="stylesheet" type="text/css" href="{url_for('static', filename='css/style.css')}" />
         <title>{{title}}</title>
         <style>
+
+            .header {
+                background-color: rgba(255, 255, 255, 0.65);
+
+                text-align: center;
+
+                background-size: 2000px 2000px;
+                background-position: center center;
+                background-repeat: no-repeat;
+            }
+
             .profile-picture-container {
               width: 15%;
               height: 15%;
@@ -26,9 +37,9 @@
     <body>
 
         {% if current_user.is_authenticated %}
-        <header>
+        <div class="header">
 
-            <nav class="navbar navbar-light bg-light row align-items-center">
+            <nav class="navbar">
                 <div class="col-11 d-flex align-items-center">
                     <div class="col-2 text-end" style="margin-left: 0px;">
                         <a href="/">
@@ -62,11 +73,11 @@
                 </div>
 
             </nav>
-        </header>
+        </div>
         {% else %}
             {% if not(current_user.is_authenticated) and request.path != "/" %}
-                <header>
-                    <nav class="navbar navbar-light bg-light row align-items-center">
+                <div class="header">
+                    <nav class="navbar">
                         <div class="col-11 d-flex align-items-center">
                             <div class="col-2 text-end" style="margin-left: 0px;">
                                 <a href="/">
@@ -75,7 +86,7 @@
                             </div>
                         </div>
                     </nav>
-                </header>
+                </div>
         {% endif %}
         {% endif %}
 
