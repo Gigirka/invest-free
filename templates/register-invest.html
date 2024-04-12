@@ -85,15 +85,7 @@
             </p>
         {% endfor %}
     </p>
-    <p>
-        {{ form.age.label }}<br>
-        {{ form.age(class="form-control") }}<br>
-        {% for error in form.age.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
+    <br>
     <p>
         {{ form.private_or_fund.label }}<br><br>
         {% for choice in form.private_or_fund.choices %}
@@ -108,27 +100,6 @@
     </p>
     <br>
     <p>
-        {{ form.qualification.label }}<br><br>
-        {% for choice in form.qualification.choices %}
-            <input type="radio" name="{{ form.qualification.name }}" value="{{ choice[0] }}" id="{{ choice[0] }}">
-            <label for="{{ choice[0] }}">{{ choice[1] }}</label><br>
-        {% endfor %}
-        {% for error in form.qualification.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.speciality.label }}<br>
-        {{ form.speciality(class="form-control") }}<br>
-        {% for error in form.speciality.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
-    <p>
         {{ form.personal.label }}<br>
         {{ form.personal(class="form-control") }}<br>
         {% for error in form.personal.errors %}
@@ -141,15 +112,6 @@
         {{ form.capital.label }}<br>
         {{ form.capital(class="form-control") }}<br>
         {% for error in form.capital.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.address.label }}<br>
-        {{ form.address(class="form-control") }}<br>
-        {% for error in form.address.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>

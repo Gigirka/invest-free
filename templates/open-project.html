@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="text-center">
-    <br>
-    <h1>Опубликуйте свой проект</h1>
-</div>
 <style>
     .btn-custom {
         font-family: 'Open Sans', sans-serif;
@@ -84,48 +80,16 @@
     .btn-green:hover {
         background-color: #6EE16E;
     }
+    .back-link {
+      color: gray;
+      text-decoration: none;
+      margin-right: 10px;
+    }
 </style>
-<form action="" method="post" enctype="multipart/form-data">
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.project_name.label }}<br>
-        {{ form.project_name(class="form-control") }}<br>
-        {% for error in form.project_name.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
-        </p>
-        {% endfor %}
-    </p>
-
-    <p>
-        {{ form.work_size.label }}<br>
-        {{ form.work_size(class="form-control") }}<br>
-        {% for error in form.work_size.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
-        </p>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.info.label }}<br>
-        {{ form.info(class="form-control") }}<br>
-        {% for error in form.info.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
-        </p>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.image.label }}<br>
-        {{ form.image(type="file", accept="image/*") }}<br>
-        {% for error in form.image.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
+<div class="text-center">
     <br>
-    <p>{{ form.submit(type="submit", class="btn btn-primary btn-custom btn-orange") }}</p>
-    {{message}}
-</form>
+     <a href="/" class="back-link">⬅ Вернуться назад</a>
+
+</div>
+
 {% endblock %}

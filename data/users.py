@@ -24,7 +24,6 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     money = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     exp = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    address = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     age = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
@@ -32,7 +31,6 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     speciality = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     personal = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     capital = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    qualification = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     private_or_fund = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     # jobs = orm.relationship("Jobs", back_populates='user')
 

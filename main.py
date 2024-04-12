@@ -1,4 +1,3 @@
-import base64
 import io
 import sqlite3
 from PIL import Image, ImageDraw
@@ -25,9 +24,9 @@ db_session.global_init("db/mars.db")
 @app.route('/')
 def index():
     db_sess = db_session.create_session()
-    # context = {}
-    # context["jobs"] = db_sess.query(Jobs).all()
-    return render_template('index.html')  # **content
+    context = {}
+    context["jobs"] = db_sess.query(Jobs).all()
+    return render_template('index.html', **context)  # **content
 
 
 @app.route('/register-invest', methods=['GET', 'POST'])
@@ -53,13 +52,8 @@ def reqister_invest():
             name=form.name.data,
             email=form.email.data,
             image=image_data,
-            age=form.age.data,
-            speciality=form.speciality.data,
-            address=form.address.data,
             capital=form.capital.data,
-            exp=form.exp.data,
             personal=form.personal.data,
-            qualification=form.qualification.data,
             private_or_fund=form.private_or_fund.data,
             password=form.password.data
         )
@@ -98,6 +92,21 @@ def reqister_business():
         return redirect('/login')
     return render_template('register-business.html', title='Регистрация', form=form)
 
+@app.route('/open-project/<int:project_id>', methods=['GET', 'POST'])
+@login_required
+def open_project(project_id):
+    conn = sqlite3.connect("db/mars.db")
+    cursor = conn.cursor()
+    info_data = cursor.execute("SELECT info FROM jobs WHERE id=?", (project_id,)).fetchone()[0]
+    project_name_data = cursor.execute("SELECT project_name FROM jobs WHERE id=?", (project_id,)).fetchone()[0]
+    work_size_data = cursor.execute("SELECT work_size FROM jobs WHERE id=?", (project_id,)).fetchone()[0]
+    conn.close()
+    return render_template('open-project.html', title='Страница проекта',
+                           info=info_data,
+                           name=project_name_data,
+                           work_size=work_size_data)
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -133,7 +142,8 @@ def add_job():
             image_data = image_file.read()
         else:
             image_data = None
-        jobs = Jobs(job=add_form.job.data,
+        jobs = Jobs(project_name=add_form.project_name.data,
+                    info=add_form.info.data,
                     work_size=add_form.work_size.data,
                     image=image_data)
                     # is_finished=add_form.is_finished.data)
@@ -159,11 +169,6 @@ def not_found(error):
 def bad_request(_):
     return make_response(jsonify({'error': 'Bad Request'}), 400)
 
-
-import io
-import sqlite3
-from PIL import Image, ImageDraw
-from flask import send_file
 
 def get_profile_picture():
     conn = sqlite3.connect("db/mars.db")
@@ -205,6 +210,25 @@ def get_profile_picture():
 @app.route('/profile_picture')
 def get_profile_picture_route():
     return get_profile_picture()
+
+def get_project_picture(project_id):
+    conn = sqlite3.connect("db/mars.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT image FROM jobs WHERE id=?", (project_id,))
+    image_data = cursor.fetchone()[0]
+    conn.close()
+    if image_data:
+        image = Image.open(io.BytesIO(image_data))
+        output = io.BytesIO()
+        image.save(output, format='PNG')
+        output.seek(0)
+        return send_file(output, mimetype='image/png')
+    else:
+        # Возвращаем изображение по умолчанию
+        return send_file('static/img/default-profile-image.jpg', mimetype='image/jpeg')
+@app.route('/project_picture/<int:project_id>')
+def get_project_picture_route(project_id):
+    return get_project_picture(project_id)
 
 if __name__ == '__main__':
     app.register_blueprint(jobs_api.blueprint)
