@@ -2,6 +2,26 @@
 
 {% block content %}
 <style>
+    body {
+      background-image: url("static/img/4.jpg");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      animation: move-bg 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes move-bg {
+      0% { background-position: center -30px; }
+      100% { background-position: center -120px; }
+    }
+    .page-link {
+        opacity: 0.5;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .page-link.active {
+        opacity: 1;
+    }
     .btn-custom {
         font-family: 'Open Sans', sans-serif;
         font-weight: bold;
@@ -22,15 +42,32 @@
         background-color: #FF8307;
     }
     label {
-        font-weight: bold; /* Жирный текст */
-        font-size: 18px; /* Увеличенный размер */
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .registration-block {
+        background-color: white;
+        padding: 60px;
+        border-top-left-radius: 130px;
+        border-top-right-radius: 130px;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .registration-block img {
+        display: block;
+        margin: 0 auto 15px auto;
+    }
+        h1{
+        font-size: 45px;
     }
 </style>
-<div class="text-center">
-    <br>
-    <h1>- Регистрация предпринимателя -</h1>
-</div>
-<form action="" method="post">
+<br><br>
+<div class="registration-block">
+    <div class="text-center">
+        <h1>- Регистрация предпринимателя -</h1>
+        <br>
+    </div>
+<form action="" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <p>
         {{ form.email.label }}<br>
@@ -68,7 +105,18 @@
             </p>
         {% endfor %}
     </p>
+    <p>
+        {{ form.image.label }}<br>
+        {{ form.image(type="file", accept="image/*") }}<br>
+        {% for error in form.image.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <br>
     <p>{{ form.submit(type="submit", class="btn btn-primary btn-custom btn-orange") }}</p>
     {{message}}
 </form>
+</div>
 {% endblock %}

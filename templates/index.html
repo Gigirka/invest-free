@@ -2,84 +2,262 @@
 
 {% block content %}
 <style>
-    .btn-custom {
-        font-family: 'Open Sans', sans-serif;
-        font-weight: bold;
-        display: block;
-        width: 100%;
-        margin: 10px auto;
-        padding: 20px;
-        font-size: 25px;
-        border-radius: 40px;
-        margin-bottom: 15px;
-    }
-    .container0 {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        margin-top: -100px;
-    }
-    .container1 {
-        display: flex;
-        flex-direction: row;
-        align-items: right;
-        margin-left: auto;
-    }
-    .btn-orange {
-        background-color: #FF8307;
-        color: white;
-        border-color: #FF8307;
-    }
-    .btn-orange:hover {
-        background-color: #FF8307;
-    }
-    .btn-green {
-        background-color: #6EE16E;
-        color: white;
-        border-color: #6EE16E;
-    }
-    .btn-green:hover {
-        background-color: #6EE16E;
-    }
+body {
+  background-image: url("static/img/4.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  animation: move-bg 5s ease-in-out infinite alternate;
+}
+
+@keyframes move-bg {
+  0% { background-position: center -30px; }
+  100% { background-position: center -120px; }
+}
+.btn-custom {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 20px;
+    font-size: 25px;
+    border-radius: 40px;
+    margin-bottom: 15px;
+}
+.btn-open {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    display: block;
+    width: 90%;
+    margin-left: 0;
+    padding: 20px;
+    font-size: 25px;
+    border-radius: 40px;
+    margin-bottom: 0;
+}
+.btn-custom-login {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    padding: 20px;
+    font-size: 25px;
+    border-radius: 40px;
+    margin-bottom: 15px;
+}
+.btn-custom3 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    display: block;
+    width: 70%;
+    margin: 10px auto;
+    margin-right: 5px;
+    padding: 15px 30px;
+    font-size: 20px;
+    border-radius: 40px;
+    margin-bottom: 0px;
+}
+.container0 {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+.container1 {
+    width: 35%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 50%;
+}
+.btn-orange {
+    background-color: #FF8307;
+    color: white;
+    border-color: #FF8307;
+}
+.btn-orange:hover {
+    background-color: #FF8307;
+}
+.btn-green {
+    background-color: #6EE16E;
+    color: white;
+    border-color: #6EE16E;
+}
+.btn-green:hover {
+    background-color: #6EE16E;
+}
+.registration-block {
+    background-color: white;
+    padding: 10px;
+    border-radius: 70px;
+    width: 35%;
+    margin: 0 auto;
+}
+.registration-block img {
+    display: block;
+    margin: 0 auto 15px auto;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+}
+.container-of-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.left-content {
+    background-color: white;
+    padding: 40px;
+    border-radius: 30px;
+    margin-bottom: 30px;
+    width: 60%;
+}
+.left-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.top-block {
+    background-color: white;
+    padding: 20px;
+    border-radius: 70px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.square-blocks-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 25px;
+}
+
+.square-block {
+    background-color: white;
+    padding: 50px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.projects-container {
+    width: 100%;
+    margin-top: 0;
+}
+.projects-section {
+    width: 100%;
+    margin-top: 0;
+    min-height: 100vh;
+}
+.projects-block {
+    overflow: hidden;
+    align-items: stretch;
+    position: relative;
+    background-color: white;
+    padding: 50px;
+    text-align: left;
+    border-radius: 20px;
+    margin-bottom: 33px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.project-content {
+    padding: 10px;
+    margin-right: 0;
+    float: left;
+    grid-column: 1;
+}
+
+.project-preview-image {
+    top: -40px;
+    position: absolute;
+    max-width: 100%;
+    float: right;
+    grid-column: 2;
+}
+.projects-block img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
 </style>
 
 {% if current_user.is_authenticated %}
     {% if current_user.type == "investor" %}
-        <h1 align="center"> Стартапы</h1>
+
+        <div class="projects-section">
+            <br>
+            <h1 align="center" style="color: white;">Выберите стартап</h1>
+            <br>
+            <div class="projects-container">
+                {% for job in jobs %}
+                    <div class="projects-block">
+                        <div class="project-content">
+                            <h1>{{job.project_name}}</h1>
+                            <br>
+                            <p>{{job.info}}</p>
+                            <p>Кол-во работников: {{job.work_size}}</p>
+                            <h5>Опубликовано: {{ job.date.strftime('%Y-%m-%d %H:%M:%S') }}</h5>
+                            <br>
+                            <a class="btn btn-primary btn-open" href="{{ url_for('open_project', project_id=job.id) }}">Открыть</a>
+                        </div>
+                        <div class="project-preview-image">
+                            <img src="{{ url_for('get_project_picture_route', project_id=job.id) }}" alt="Project Image">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
     {% else %}
-        <h1 align="center">Найдите себе подходящего инвестора</h1>
+        <br>
+        <h1 align="center" style="color: white;">Найдите себе подходящего инвестора</h1>
     {% endif %}
 {% else %}
-    <div class="container0 d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-        <p>
-            <a class="btn btn-primary btn-custom btn-orange" href="/register-business">Стать предпринимателем</a>
-            <a class="btn btn-primary btn-custom btn-orange" href="/register-invest">Стать инвестором</a>
-            <a class="btn btn-success btn-custom btn-green" href="/login">Войти</a>
-        </p>
-    </div>
-{% endif %}
 
-<!--    {% for job in jobs %}-->
-<!--        <h3> Action # {{job.id}}</h3>-->
-<!--        <table class="table">-->
-<!--            <tr class="table-active">-->
-<!--                <td  width="600px"> Title of activity </td>-->
-<!--                <td  width="200px"> Team leader</td>-->
-<!--                <td  width="100px"> Duration </td>-->
-<!--                <td  width="300px"> List of collaborators</td>-->
-<!--                <td  width="300px"> Is finished</td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <td  class="table-info"> {{job.job}} </td>-->
-<!--                <td  class="table-info"> {{job.user.name}} {{job.user.surname}}</td>-->
-<!--                <td  class="table-info"> {{job.work_size}} </td>-->
-<!--                <td  class="table-info"> {{job.collaborators}}</td>-->
-<!--                {% if job.is_finished %}-->
-<!--                <td  class="table-info"> Finished</td>-->
-<!--                {% else %}-->
-<!--                <td  class="table-danger"> Is not finished</td>-->
-<!--                {% endif %}-->
-<!--            </tr>-->
-<!--        </table>-->
-<!--    {% endfor %}-->
+<div class="container">
+    <div class="left-content-wrapper">
+        <div class="top-block"><h2>Почему именно мы?</h2></div>
+        <div class="square-blocks-container">
+            <div class="square-block">
+                <h2>Много опыта</h2>
+                <p>Почти месяц на мировом рынке</p>
+            </div>
+            <div class="square-block">
+                <h2>Нам доверяют</h2>
+                <p>Больше 0 трлн ₽ инвестировано</p>
+            </div>
+            <div class="square-block">
+                 <h2>Нет конкурентов</h2>
+                <p>Нет конкурентов</p>
+            </div>
+            <div class="square-block">
+                                <h2>Надёжно</h2>
+                <p>Очень</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="registration-block">
+        <a href="/">
+            <img class="img-fluid" src="static/img/logo_main_web1.png" alt="Логотип Find-Investor" width="100%" style="margin-bottom: 30px;">
+        </a>
+        <a class="btn btn-primary btn-custom btn-orange" href="/register-business">Стать предпринимателем</a>
+        <a class="btn btn-primary btn-custom btn-orange" href="/register-invest">Стать инвестором</a>
+        <a class="btn btn-success btn-custom-login btn-green" href="/login">Войти</a>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

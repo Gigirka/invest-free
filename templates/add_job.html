@@ -1,51 +1,161 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="text-center">
-    <br>
-    <h1>Привлеките инвесторов в свой проект</h1>
-</div>
+<style>
+    body {
+      background-image: url("static/img/4.jpg");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      animation: move-bg 5s ease-in-out infinite alternate;
+    }
 
-<form action="" method="post">
+    @keyframes move-bg {
+      0% { background-position: center -30px; }
+      100% { background-position: center -120px; }
+    }
+    .btn-custom {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        display: block;
+        width: 90%;
+        margin: 10px auto;
+        padding: 20px;
+        font-size: 25px;
+        border-radius: 40px;
+        margin-bottom: 15px;
+    }
+    .btn-custom-login {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        display: block;
+        width: 80%;
+        margin: 10px auto;
+        padding: 20px;
+        font-size: 25px;
+        border-radius: 40px;
+        margin-bottom: 15px;
+    }
+    .btn-custom3 {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        display: block;
+        width: 70%;
+        margin: 10px auto;
+        padding: 15px 30px;
+        margin-right: 5px;
+        font-size: 20px;
+        border-radius: 40px;
+        margin-bottom: 0px;
+    }
+    .container0 {
+        width: 35%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin-top: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .container1 {
+        width: 35%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-left: 50%;
+    }
+    .btn-custom {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        display: block;
+        width: 30%;
+        margin: 10px auto;
+        padding: 20px;
+        font-size: 25px;
+        border-radius: 40px;
+        margin-bottom: 15px;
+    }
+    .btn-orange {
+        background-color: #FF8307;
+        color: white;
+        border-color: #FF8307;
+    }
+    .btn-orange:hover {
+        background-color: #FF8307;
+    }
+    .btn-green {
+        background-color: #6EE16E;
+        color: white;
+        border-color: #6EE16E;
+    }
+    .btn-green:hover {
+        background-color: #6EE16E;
+    }
+    .registration-block {
+        background-color: white;
+        padding: 60px;
+        border-top-left-radius: 130px;
+        border-top-right-radius: 130px;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .registration-block img {
+        display: block;
+        margin: 0 auto 15px auto;
+    }
+        h1{
+        font-size: 45px;
+    }
+</style>
+<br><br>
+<div class="registration-block">
+<div class="text-center">
+    <h1>Опубликуйте свой проект</h1>
+    <br>
+</div>
+<form action="" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <p>
-        {{ form.job.label }}<br>
-        {{ form.job(class="form-control") }}<br>
-        {% for error in form.job.errors %}
-    <p class="alert alert-danger" role="alert">
-        {{ error }}
+        {{ form.project_name.label }}<br>
+        {{ form.project_name(class="form-control") }}<br>
+        {% for error in form.project_name.errors %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+        {% endfor %}
     </p>
-    {% endfor %}
-    </p>
-    <p>
-        {{ form.team_leader.label }}<br>
-        {{ form.team_leader(class="form-control") }}<br>
-        {% for error in form.team_leader.errors %}
-    <p class="alert alert-danger" role="alert">
-        {{ error }}
-    </p>
-    {% endfor %}
-    </p>
+
     <p>
         {{ form.work_size.label }}<br>
         {{ form.work_size(class="form-control") }}<br>
         {% for error in form.work_size.errors %}
-    <p class="alert alert-danger" role="alert">
-        {{ error }}
-    </p>
-    {% endfor %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+        {% endfor %}
     </p>
     <p>
-        {{ form.collaborators.label }}<br>
-        {{ form.collaborators(class="form-control") }}<br>
-        {% for error in form.collaborators.errors %}
-    <p class="alert alert-danger" role="alert">
-        {{ error }}
+        {{ form.info.label }}<br>
+        {{ form.info(class="form-control") }}<br>
+        {% for error in form.info.errors %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+        {% endfor %}
     </p>
-    {% endfor %}
+    <p>
+        {{ form.image.label }}<br><br>
+        {{ form.image(type="file", accept="image/*") }}<br>
+        {% for error in form.image.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
     </p>
-    <p>{{ form.is_finished() }} {{ form.is_finished.label }}</p>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    <br>
+    <p>{{ form.submit(type="submit", class="btn btn-primary btn-custom btn-orange") }}</p>
     {{message}}
 </form>
+</div>
 {% endblock %}
