@@ -237,6 +237,13 @@ def open_project(project_id):
     cursor.execute("SELECT * FROM jobs WHERE id=?", (project_id,))
     project_data = cursor.fetchone()
     conn.close()
+
+    conn = sqlite3.connect("db/mars.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM users WHERE id=?", (project_data[3],))
+    name = cursor.fetchall()
+    conn.close()
+
     project = {
         'id': project_data[0],
         'project_name': project_data[1],
@@ -244,7 +251,8 @@ def open_project(project_id):
         'date': project_data[6],
         'info': project_data[5],
         'needed_money': project_data[7],
-        'invested_money': project_data[8]
+        'invested_money': project_data[8],
+        'author': name[0][0]
     }
     return render_template('open-project.html', title='Страница проекта', project=project)
 
