@@ -146,6 +146,15 @@
         {% endfor %}
     </p>
     <p>
+        {{ form.needed_money.label }}<br>
+        {{ form.needed_money(class="form-control") }}<br>
+        {% for error in form.needed_money.errors %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+        {% endfor %}
+    </p>
+    <p>
         {{ form.image.label }}<br><br>
         {{ form.image(type="file", accept="image/*") }}<br>
         {% for error in form.image.errors %}

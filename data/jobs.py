@@ -19,4 +19,5 @@ class Jobs(SqlAlchemyBase, SerializerMixin):
     date = sqlalchemy.Column(sqlalchemy.DateTime,
                                    default=datetime.datetime.now)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    needed_money = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     # user = orm.relationship('User')

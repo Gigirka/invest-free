@@ -144,7 +144,8 @@ def add_job():
                     info=add_form.info.data,
                     work_size=add_form.work_size.data,
                     image=image_data,
-                    user_id=current_user.id)
+                    user_id=current_user.id,
+                    needed_money=add_form.needed_money.data)
                     # is_finished=add_form.is_finished.data)
         db_sess.add(jobs)
         db_sess.commit()
