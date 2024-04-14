@@ -107,6 +107,26 @@
         max-width: 100%;
         height: 100%;
     }
+     .progress-block {
+        width: 100%;
+        background-color: #F0F0F0;
+        flex-direction: row;
+        border-radius: 15px;
+        overflow: hidden;
+        padding: 30px;
+        width: 38%;
+    }
+    .progress-bar {
+        width: 100%;
+        background-color: lightgrey;
+        border-radius: 35px;
+        overflow: hidden;
+    }
+
+    .progress {
+        height: 35px;
+        background-color: orange;
+    }
 </style>
 
 <div class="project-container">
@@ -117,10 +137,15 @@
     <div class="project-info">
         <a href="/" class="back-link">⬅ Вернуться назад</a>
         <h1>{{ project.project_name }}</h1>
-        <p>Опубликовано: {{ project.date[:19] }}</p>
+        <p>Опубликовано: {{project.date[:19]}}</p>
         <p>{{ project.info }}</p>
-        <p>Кол-во работников: {{ project.work_size }}</p>
-
+        <p>Кол-во работников: {{project.work_size}}</p>
+        <div class="progress-block">
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ project.invested_money / project.needed_money * 100 }}%;"></div>
+            </div>
+            <p>Собрано: {{project.invested_money}} / {{project.needed_money}}₽</p>
+        </div>
     </div>
 
 </div>
