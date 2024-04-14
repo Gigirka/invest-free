@@ -18,4 +18,5 @@ class Jobs(SqlAlchemyBase, SerializerMixin):
     image = sqlalchemy.Column(sqlalchemy.BLOB, nullable=True)
     date = sqlalchemy.Column(sqlalchemy.DateTime,
                                    default=datetime.datetime.now)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     # user = orm.relationship('User')

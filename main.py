@@ -130,7 +130,8 @@ def add_job():
         jobs = Jobs(project_name=add_form.project_name.data,
                     info=add_form.info.data,
                     work_size=add_form.work_size.data,
-                    image=image_data)
+                    image=image_data,
+                    user_id=current_user.id)
                     # is_finished=add_form.is_finished.data)
         db_sess.add(jobs)
         db_sess.commit()
