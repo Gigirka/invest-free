@@ -237,12 +237,22 @@ def open_project(project_id):
     cursor.execute("SELECT * FROM jobs WHERE id=?", (project_id,))
     project_data = cursor.fetchone()
     conn.close()
+
+    conn = sqlite3.connect("db/mars.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM users WHERE id=?", (project_data[3],))
+    name = cursor.fetchall()
+    conn.close()
+
     project = {
         'id': project_data[0],
         'project_name': project_data[1],
         'work_size': project_data[2],
         'date': project_data[6],
-        'info': project_data[5]
+        'info': project_data[5],
+        'needed_money': project_data[7],
+        'invested_money': project_data[8],
+        'author': name[0][0]
     }
     return render_template('open-project.html', title='Страница проекта', project=project)
 
@@ -256,4 +266,4 @@ if __name__ == '__main__':
 
     # для одного объекта
     api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:users_id>')
-    app.run(port=8183, host='127.0.0.1')
+    app.run(port=8184, host='127.0.0.1')
