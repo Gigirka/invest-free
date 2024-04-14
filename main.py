@@ -25,7 +25,19 @@ db_session.global_init("db/mars.db")
 def index():
     db_sess = db_session.create_session()
     context = {}
-    context["jobs"] = db_sess.query(Jobs).all()
+    context["jobs"] = db_sess.query(Jobs).all
+    print(context)
+    # conn = sqlite3.connect("db/mars.db")
+    # cursor = conn.cursor()
+    # cursor.execute("SELECT * FROM jobs WHERE user_id=?", (current_user.id,))
+    # your_projects = cursor.fetchall()
+    # conn.close()
+    # for i in range(len(your_projects)):
+    #     your_projects[i] = list(your_projects[i])
+    your_projects = db_sess.query(Jobs).filter(Jobs.user_id == current_user.id).all()
+    context["your_projects"] = your_projects
+    print(your_projects)
+    print(context)
     return render_template('index.html', **context)  # **content
 
 

@@ -307,8 +307,45 @@ body {
         </div>
 
     {% else %}
-        <br>
-        <h1 align="center" style="color: white;">Найдите себе подходящего инвестора</h1>
+        <div class="projects-section">
+            <div class="name-and-filters">
+                <div class="on-top-block" style="width: 75%">
+                    <h1 style="color: black; font-size: 36px;">Ваши проекты</h1>
+                </div>
+
+                    <div class="on-top-block"  style="width: 35%">
+                        <div class="dropdown">
+                          <h1 style="color: black; font-size: 36px;">Фильтр<span class="dropdown-arrow"></span></h1>
+                          <div class="dropdown-content" style="width: 85%">
+                            <a href="#">Свежие</a>
+                            <a href="#">Собрано < 70%</a>
+                              <a href="#">Собрано < 40%</a>
+                              <a href="#">Собрано < 20%</a>
+                            <a href="#">Размер компании: до 10 человек</a>
+                          </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="projects-container">
+                {% for job in your_projects %}
+                    <div class="projects-block">
+                        <div class="project-content">
+                            <h1>{{job.id}}</h1>
+                            <br>
+                            <p>{{job.info}}</p>
+                            <p>Кол-во работников: {{job.work_size}}</p>
+                            <h5>Опубликовано: {{ job.date.strftime('%Y-%m-%d %H:%M:%S') }}</h5>
+                            <br>
+                            <a class="btn btn-primary btn-open" href="{{ url_for('open_project', project_id=job.id) }}">Открыть</a>
+                        </div>
+                        <div class="project-preview-image">
+                            <img src="{{ url_for('get_project_picture_route', project_id=job.id) }}" alt="Project Image">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     {% endif %}
 {% else %}
 
