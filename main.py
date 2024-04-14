@@ -34,9 +34,13 @@ def index():
     # conn.close()
     # for i in range(len(your_projects)):
     #     your_projects[i] = list(your_projects[i])
-    your_projects = db_sess.query(Jobs).filter(Jobs.user_id == current_user.id).all()
-    context["your_projects"] = your_projects
+    try:
+        your_projects = db_sess.query(Jobs).filter(Jobs.user_id == current_user.id).all()
+    except:
+        your_projects = []
     print(your_projects)
+    if your_projects:
+        context["your_projects"] = your_projects
     print(context)
     return render_template('index.html', **context)  # **content
 
