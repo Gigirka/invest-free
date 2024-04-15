@@ -1,7 +1,7 @@
 import io
 import sqlite3
 from PIL import Image, ImageDraw
-from flask import Flask, render_template, redirect, make_response, jsonify, send_file
+from flask import Flask, render_template, redirect, make_response, jsonify, send_file, request
 from data import db_session
 from data.api import jobs_api, users_resource
 from data.forms.login import LoginForm
