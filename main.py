@@ -291,4 +291,4 @@ if __name__ == '__main__':
 
     # для одного объекта
     api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:users_id>')
-    app.run(port=8184, host='127.0.0.1')
+    app.run(port=8185, host='127.0.0.1')
