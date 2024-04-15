@@ -56,6 +56,7 @@
                                         <img src="{{ url_for('get_profile_picture_route') }}" alt="Фото профиля" width="10%">
                                     </a>
                                 </div>
+                                 <p>Баланс: {{current_user.money}} рублей</p>
                             </div>
                         {% else %}
                             <div class="container1 col-2 d-flex align-items-center">
