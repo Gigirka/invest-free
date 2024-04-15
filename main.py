@@ -82,7 +82,8 @@ def reqister_business():
     form = BusinessmanRegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
-            return render_template('register-business.html', title='Регистрация', form=form, message='Пароли не совпадают')
+            return render_template('register-business.html', title='Регистрация', form=form,
+                                   message='Пароли не совпадают')
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register-business.html', title='Регистрация',
@@ -146,7 +147,7 @@ def add_job():
                     image=image_data,
                     user_id=current_user.id,
                     needed_money=add_form.needed_money.data)
-                    # is_finished=add_form.is_finished.data)
+        # is_finished=add_form.is_finished.data)
         db_sess.add(jobs)
         db_sess.commit()
         return redirect("/")
@@ -207,9 +208,12 @@ def get_profile_picture():
     else:
         # Возвращаем изображение по умолчанию
         return send_file('static/img/default-profile-image.jpg', mimetype='image/jpeg')
+
+
 @app.route('/profile_picture')
 def get_profile_picture_route():
     return get_profile_picture()
+
 
 def get_project_picture(project_id):
     conn = sqlite3.connect("db/mars.db")
@@ -226,13 +230,19 @@ def get_project_picture(project_id):
     else:
         # Возвращаем изображение по умолчанию
         return send_file('static/img/default-profile-image.jpg', mimetype='image/jpeg')
+
+
 @app.route('/project_picture/<int:project_id>')
 def get_project_picture_route(project_id):
     return get_project_picture(project_id)
 
 
+project = {}
+
+
 @app.route('/open-project/<int:project_id>', methods=['GET', 'POST'])
 def open_project(project_id):
+    global project
     conn = sqlite3.connect("db/mars.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM jobs WHERE id=?", (project_id,))
@@ -258,6 +268,20 @@ def open_project(project_id):
     return render_template('open-project.html', title='Страница проекта', project=project)
 
 
+@app.route('/invest', methods=['GET', 'POST'])
+def invest():
+    global project
+    print(project['invested_money'])
+    money = request.form["text"]
+    conn = sqlite3.connect("db/mars.db")
+    cursor = conn.cursor()
+    cursor.execute(f"UPDATE jobs SET invested_money = invested_money + {money}  WHERE id={project["id"]}").fetchone()
+    project['invested_money'] = int(project['invested_money']) + int(money)
+    cursor.execute(f"UPDATE users SET money = money - {money}  WHERE id={current_user.id}").fetchone()
+    conn.commit()
+    conn.close()
+    print(project['invested_money'])
+    return render_template('open-project.html', title='Страница проекта', project=project)
 
 
 if __name__ == '__main__':
