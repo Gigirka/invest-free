@@ -20,4 +20,5 @@ class Jobs(SqlAlchemyBase, SerializerMixin):
                                    default=datetime.datetime.now)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     needed_money = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    is_finished = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     # user = orm.relationship('User')
