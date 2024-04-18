@@ -139,6 +139,9 @@
 <div class="project-container">
     <div class="project-info">
         <a href="/" class="back-link">⬅ Вернуться назад</a>
+        {%if project.invested_money == project.needed_money%}
+        <h1>Проект заавершён!</h1>
+        {%endif%}
         <h1>{{ project.project_name }}</h1>
 
         <p>Опубликовано: {{project.date[:19]}}</p>
@@ -157,6 +160,7 @@
                 <p>- Автор: {{project.author}}</p>
                 <br>
                 <br>
+                {%if not project.invested_money == project.needed_money%}
                 <form action="/invest" method="post" enctype="multipart/form-data">
                     <strong>Введите сумму, которую вы бы хотели вложить (в рублях)</strong><br>
                     <input type="text"  style="margin-top: 5px;" name="text"><br>
@@ -164,6 +168,7 @@
                     <input type="submit" value="Инвестировать" class="btn btn-primary btn-custom btn-orange" style="margin-top: 50px;">
 <!--                <a class="btn btn-primary btn-custom btn-orange">Инвестировать</a>-->
                 </form>
+                {%endif%}
 
             </div>
         </div>
