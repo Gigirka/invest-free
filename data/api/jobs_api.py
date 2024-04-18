@@ -18,8 +18,11 @@ def get_jobs():
     return jsonify(
         {
             'jobs':
-                [item.to_dict(only=('id', 'job', 'team_leader', 'work_size', 'collaborators', 'is_finished'))
-                 for item in jobs]
+                [item.to_dict(only=(
+                    'id', 'project_name', 'work_size', 'user_id',  'info', 'date', 'needed_money',
+                    'invested_money',
+                    'is_finished'))
+                    for item in jobs]
         }
     )
 
@@ -30,10 +33,12 @@ def get_one_jobs(jobs_id):
     jobs = db_sess.query(Jobs).get(jobs_id)
     if not jobs:
         return make_response(jsonify({'error': 'Not found'}), 404)
+
     return jsonify(
         {
             'jobs': jobs.to_dict(only=(
-                'id', 'job', 'team_leader', 'work_size', 'collaborators', 'is_finished'))
+                'id', 'project_name', 'work_size', 'user_id',  'info', 'date', 'needed_money', 'invested_money',
+                'is_finished'))
         }
     )
 
@@ -43,14 +48,19 @@ def create_jobs():
     if not request.json:
         return make_response(jsonify({'error': 'Empty request'}), 400)
     elif not all(key in request.json for key in
-                 ['job', 'team_leader', 'work_size', 'collaborators', 'is_finished']):
+                 ['project_name', 'work_size', 'user_id', 'info', 'needed_money', 'invested_money',
+                  'is_finished']):
         return make_response(jsonify({'error': 'Bad request'}), 400)
     db_sess = db_session.create_session()
     jobs = Jobs(
-        job=request.json['job'],
-        team_leader=request.json['team_leader'],
+        project_name=request.json['project_name'],
         work_size=request.json['work_size'],
-        collaborators=request.json['collaborators'],
+        user_id=request.json['user_id'],
+        # image=request.json['image'],
+        info=request.json['info'],
+        date=request.json['date'],
+        needed_money=request.json['needed_money'],
+        invested_money=request.json['invested_money'],
         is_finished=request.json['is_finished']
     )
     db_sess.add(jobs)
