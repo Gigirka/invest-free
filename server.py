@@ -273,16 +273,35 @@ def invest():
     global project
     print(project['invested_money'])
     try:
-        money = request.form["text"]
-        conn = sqlite3.connect("db/mars.db")
-        cursor = conn.cursor()
-        cursor.execute(
-            f"UPDATE jobs SET invested_money = invested_money + {money}  WHERE id={project["id"]}").fetchone()
-        project['invested_money'] = int(project['invested_money']) + int(money)
-        cursor.execute(f"UPDATE users SET money = money - {money}  WHERE id={current_user.id}").fetchone()
-        conn.commit()
-        conn.close()
-        print(project['invested_money'])
+        if int(project['invested_money']) != int(project['needed_money']):
+            money = request.form["text"]
+            conn = sqlite3.connect("db/mars.db")
+            cursor = conn.cursor()
+            project['invested_money'] = int(project['invested_money']) + int(money)
+            if project['invested_money'] >= int(project['needed_money']):
+                project['invested_money'] = int(project['needed_money'])
+                cursor.execute(
+                    f"UPDATE jobs SET invested_money = needed_money  WHERE id={project["id"]}").fetchone()
+                conn.commit()
+                cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project["id"].id}").fetchone()
+                conn.commit()
+                cursor.execute(f"UPDATE users SET money = money - {money}  WHERE id={current_user.id}").fetchone()
+                conn.commit()
+                conn.close()
+                # project['is_finished'] = True
+            else:
+                cursor.execute(
+                    f"UPDATE jobs SET invested_money = invested_money + {money}  WHERE id={project["id"]}").fetchone()
+                conn.commit()
+                cursor.execute(f"UPDATE users SET money = money - {money}  WHERE id={current_user.id}").fetchone()
+                conn.commit()
+            conn.close()
+        else:
+            conn = sqlite3.connect("db/mars.db")
+            cursor = conn.cursor()
+            cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project["id"].id}").fetchone()
+            conn.commit()
+            conn.close()
         return render_template('open-project.html', title='Страница проекта', project=project)
     except:
         return render_template('open-project.html', title='Страница проекта', project=project)
