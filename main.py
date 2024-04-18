@@ -272,16 +272,20 @@ def open_project(project_id):
 def invest():
     global project
     print(project['invested_money'])
-    money = request.form["text"]
-    conn = sqlite3.connect("db/mars.db")
-    cursor = conn.cursor()
-    cursor.execute(f"UPDATE jobs SET invested_money = invested_money + {money}  WHERE id={project["id"]}").fetchone()
-    project['invested_money'] = int(project['invested_money']) + int(money)
-    cursor.execute(f"UPDATE users SET money = money - {money}  WHERE id={current_user.id}").fetchone()
-    conn.commit()
-    conn.close()
-    print(project['invested_money'])
-    return render_template('open-project.html', title='Страница проекта', project=project)
+    try:
+        money = request.form["text"]
+        conn = sqlite3.connect("db/mars.db")
+        cursor = conn.cursor()
+        cursor.execute(
+            f"UPDATE jobs SET invested_money = invested_money + {money}  WHERE id={project["id"]}").fetchone()
+        project['invested_money'] = int(project['invested_money']) + int(money)
+        cursor.execute(f"UPDATE users SET money = money - {money}  WHERE id={current_user.id}").fetchone()
+        conn.commit()
+        conn.close()
+        print(project['invested_money'])
+        return render_template('open-project.html', title='Страница проекта', project=project)
+    except:
+        return render_template('open-project.html', title='Страница проекта', project=project)
 
 
 if __name__ == '__main__':
