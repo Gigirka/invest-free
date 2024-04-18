@@ -291,8 +291,8 @@ def invest():
 if __name__ == '__main__':
     app.register_blueprint(jobs_api.blueprint)
     # для списка объектов
-    # api.add_resource(users_resource.UsersListResource, '/api/v2/users')
+    api.add_resource(users_resource.UsersListResource, '/api/v2/users')
     #
     # # для одного объекта
-    # api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:users_id>')
+    api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:users_id>')
     app.run(port=8185, host='127.0.0.1')
