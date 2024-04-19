@@ -170,7 +170,10 @@
                     <p style="color: red">
                         {{ error }}
                     </p>
-
+                {%else%}
+                    <div class="finished-container" style="text-align: center;">
+                      <h1 style="font-size: 50px;">ЗАВЕРШЕНО</h1>
+                    </div>
 <!--                <a class="btn btn-primary btn-custom btn-orange">Инвестировать</a>-->
                 </form>
                 {%endif%}
