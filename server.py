@@ -1,5 +1,7 @@
 import io
 import sqlite3
+from datetime import datetime, timedelta
+
 from PIL import Image, ImageDraw
 from flask import Flask, render_template, redirect, make_response, jsonify, send_file, request
 from data import db_session
@@ -18,29 +20,46 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-db_session.global_init("db/mars.db")
+db_session.global_init("db/database.db")
 
 
 @app.route('/')
 def index():
     db_sess = db_session.create_session()
     context = {}
-    context["jobs"] = db_sess.query(Jobs).all()
-    # conn = sqlite3.connect("db/mars.db")
-    # cursor = conn.cursor()
-    # cursor.execute("SELECT * FROM jobs WHERE user_id=?", (current_user.id,))
-    # your_projects = cursor.fetchall()
-    # conn.close()
-    # for i in range(len(your_projects)):
-    #     your_projects[i] = list(your_projects[i])
+
+    fresh = request.args.get('fresh')
+    progress_max = request.args.get('progress_max')
+    max_size = request.args.get('max_size')
+    query = db_sess.query(Jobs)
+    context['filter_name'] = f'Все'
+    # Фильтры
+    if fresh:
+        five_days_ago = datetime.now() - timedelta(days=5)
+        query = query.filter(Jobs.date >= five_days_ago)
+        context['filter_name'] = f'Новые'
+
+    if progress_max:
+        query = query.filter(Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100)
+        context['filter_name'] = f'< {progress_max}% собрано'
+
+    if max_size:
+        query = query.filter(Jobs.work_size <= int(max_size))
+        context['filter_name'] = f'< {max_size} человек'
+
+
+    context["jobs"] = query.all()
     try:
         your_projects = db_sess.query(Jobs).filter(Jobs.user_id == current_user.id).all()
     except:
         your_projects = []
     if your_projects:
         context["your_projects"] = your_projects
-    return render_template('index.html', **context)  # **content
 
+    context['fresh_filter'] = fresh
+    context['max_filter'] = progress_max
+    context['max_size_filter'] = max_size
+    return render_template('index.html', **context)
 
 @app.route('/register-invest', methods=['GET', 'POST'])
 def reqister_invest():
@@ -172,7 +191,7 @@ def bad_request(_):
 
 
 def get_profile_picture():
-    conn = sqlite3.connect("db/mars.db")
+    conn = sqlite3.connect("db/database.db")
     cursor = conn.cursor()
     user_id = current_user.id
     cursor.execute("SELECT image FROM users WHERE id=?", (user_id,))
@@ -216,7 +235,7 @@ def get_profile_picture_route():
 
 
 def get_project_picture(project_id):
-    conn = sqlite3.connect("db/mars.db")
+    conn = sqlite3.connect("db/database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT image FROM jobs WHERE id=?", (project_id,))
     image_data = cursor.fetchone()[0]
@@ -243,13 +262,13 @@ project = {}
 @app.route('/open-project/<int:project_id>', methods=['GET', 'POST'])
 def open_project(project_id):
     global project
-    conn = sqlite3.connect("db/mars.db")
+    conn = sqlite3.connect("db/database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM jobs WHERE id=?", (project_id,))
     project_data = cursor.fetchone()
     conn.close()
 
-    conn = sqlite3.connect("db/mars.db")
+    conn = sqlite3.connect("db/database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT name FROM users WHERE id=?", (project_data[3],))
     name = cursor.fetchall()
@@ -275,7 +294,7 @@ def invest():
     try:
         if int(project['invested_money']) != int(project['needed_money']):
             money = request.form["text"]
-            conn = sqlite3.connect("db/mars.db")
+            conn = sqlite3.connect("db/database.db")
             cursor = conn.cursor()
             project['invested_money'] = int(project['invested_money']) + int(money)
             if project['invested_money'] >= int(project['needed_money']):
@@ -297,7 +316,7 @@ def invest():
                 conn.commit()
             conn.close()
         else:
-            conn = sqlite3.connect("db/mars.db")
+            conn = sqlite3.connect("db/database.db")
             cursor = conn.cursor()
             cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project["id"].id}").fetchone()
             conn.commit()
