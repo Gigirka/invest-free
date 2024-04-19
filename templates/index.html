@@ -76,6 +76,7 @@ body {
 .container1 {
     width: 35%;
     display: flex;
+    justify-content: flex-end;
     flex-direction: row;
     align-items: center;
     margin-left: 50%;
@@ -295,9 +296,9 @@ body {
                         <div class="project-content">
                             <h1>{{job.project_name}}</h1>
                             <br>
-                            <p>{{job.info}}</p>
+                            <p>{{job.info[:200]}}...</p>
                             <p>Кол-во работников: {{job.work_size}}</p>
-                            <h5>Опубликовано: {{ job.date.strftime('%Y-%m-%d %H:%M:%S') }}</h5>
+                            <h5>Опубликовано: {{ job.date.strftime('%Y-%m-%d %H:%M') }}</h5>
                             <br>
                             <a class="btn btn-primary btn-open" href="{{ url_for('open_project', project_id=job.id) }}">Открыть</a>
                         </div>
@@ -318,7 +319,7 @@ body {
                     <div class="on-top-block"  style="width: 35%">
                         <div class="dropdown">
                             <h1 style="color: black; font-size: 33px; ">Фильтр <span class="dropdown-arrow"></span></h1>
-                            <h1 style="color: black; font-size: 16px; margin-top: -10px; ">{{filter_name}}</h1>
+                            <h1 style="color: black; font-size: 16px; margin-top: -10px;">{{filter_name}}</h1>
 
                           <div class="dropdown-content" style="width: 105%; border-radius: 15px;">
                                 <a href="/">Все</a>
@@ -336,9 +337,9 @@ body {
                         <div class="project-content">
                             <h1>{{job.project_name}}</h1>
                             <br>
-                            <p>{{job.info}}</p>
+                            <p>{{job.info[:200]}}...</p>
                             <p>Кол-во работников: {{job.work_size}}</p>
-                            <h5>Опубликовано: {{ job.date.strftime('%Y-%m-%d %H:%M:%S') }}</h5>
+                            <h5>Опубликовано: {{ job.date.strftime('%Y-%m-%d %H:%M') }}</h5>
                             <br>
                             <a class="btn btn-primary btn-open" href="{{ url_for('open_project', project_id=job.id) }}">Открыть</a>
                         </div>

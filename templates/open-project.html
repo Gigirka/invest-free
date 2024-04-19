@@ -140,7 +140,7 @@
     <div class="project-info">
         <a href="/" class="back-link">⬅ Вернуться назад</a>
         {%if project.invested_money == project.needed_money%}
-        <h1>Проект заавершён!</h1>
+        <h1>Проект завершён!</h1>
         {%endif%}
         <h1>{{ project.project_name }}</h1>
 
@@ -155,9 +155,9 @@
                     <div class="progress" style="width: {{ project.invested_money / project.needed_money * 100 }}%;"></div>
                 </div>
 
-                <p>Собрано: {{project.invested_money}} / {{project.needed_money}}₽</p>
-                <p>- Кол-во работников: {{project.work_size}}</p>
-                <p>- Автор: {{project.author}}</p>
+                <p style="font-size: 20px; margin: auto; margin-top: 10px;">Собрано: {{project.invested_money}} / {{project.needed_money}}₽ ({{project.percentage}}%)</p>
+                <p style="font-size: 20px; margin-top: 20px;">- Кол-во работников: {{project.work_size}}</p>
+                <p style="font-size: 20px">- Контакты: {{project.email}} ({{project.author}})</p>
                 <br>
                 <br>
                 {%if not project.invested_money == project.needed_money%}
@@ -166,6 +166,11 @@
                     <input type="text"  style="margin-top: 5px;" name="text"><br>
 <!--                    <div id="msg"></div>-->
                     <input type="submit" value="Инвестировать" class="btn btn-primary btn-custom btn-orange" style="margin-top: 50px;">
+                    <br>
+                    <p style="color: red">
+                        {{ error }}
+                    </p>
+
 <!--                <a class="btn btn-primary btn-custom btn-orange">Инвестировать</a>-->
                 </form>
                 {%endif%}

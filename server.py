@@ -3,7 +3,7 @@ import sqlite3
 from datetime import datetime, timedelta
 
 from PIL import Image, ImageDraw
-from flask import Flask, render_template, redirect, make_response, jsonify, send_file, request
+from flask import Flask, render_template, redirect, make_response, jsonify, send_file, request, url_for
 from data import db_session
 from data.api import jobs_api, users_resource
 from data.forms.login import LoginForm
@@ -33,6 +33,9 @@ def index():
     max_size = request.args.get('max_size')
     query = db_sess.query(Jobs)
     context['filter_name'] = f'Все'
+
+    invested_money = Jobs.invested_money
+    needed_money = Jobs.needed_money
     # Фильтры
     if fresh:
         five_days_ago = datetime.now() - timedelta(days=5)
@@ -59,6 +62,8 @@ def index():
     context['fresh_filter'] = fresh
     context['max_filter'] = progress_max
     context['max_size_filter'] = max_size
+
+
     return render_template('index.html', **context)
 
 @app.route('/register-invest', methods=['GET', 'POST'])
@@ -271,8 +276,16 @@ def open_project(project_id):
     conn = sqlite3.connect("db/database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT name FROM users WHERE id=?", (project_data[3],))
+
     name = cursor.fetchall()
+
+    cursor.execute("SELECT email FROM users WHERE id=?", (project_data[3],))
+
+    email = cursor.fetchall()
+
     conn.close()
+
+    percentage =round((project_data[8]) / (project_data[7]) * 100, 2)
 
     project = {
         'id': project_data[0],
@@ -282,7 +295,9 @@ def open_project(project_id):
         'info': project_data[5],
         'needed_money': project_data[7],
         'invested_money': project_data[8],
-        'author': name[0][0]
+        'author': name[0][0],
+        'email': email[0][0],
+        'percentage': percentage
     }
     return render_template('open-project.html', title='Страница проекта', project=project)
 
@@ -290,12 +305,16 @@ def open_project(project_id):
 @app.route('/invest', methods=['GET', 'POST'])
 def invest():
     global project
-    print(project['invested_money'])
     try:
-        if int(project['invested_money']) != int(project['needed_money']):
+        if int(project['invested_money']) < int(project['needed_money']):
             money = request.form["text"]
             conn = sqlite3.connect("db/database.db")
             cursor = conn.cursor()
+
+            if int(money) > int(cursor.execute(f"SELECT money FROM users WHERE id={current_user.id}").fetchone()[0]):
+                return render_template('open-project.html', title='Стра23ница проекта', project=project,
+                                       error='Недостаточно средств')
+
             project['invested_money'] = int(project['invested_money']) + int(money)
             if project['invested_money'] >= int(project['needed_money']):
                 project['invested_money'] = int(project['needed_money'])
@@ -311,26 +330,32 @@ def invest():
             else:
                 cursor.execute(
                     f"UPDATE jobs SET invested_money = invested_money + {money}  WHERE id={project["id"]}").fetchone()
-                conn.commit()
+
                 cursor.execute(f"UPDATE users SET money = money - {money}  WHERE id={current_user.id}").fetchone()
                 conn.commit()
-            conn.close()
+                cursor.execute(f"SELECT user_id FROM jobs WHERE id={project["id"]}")
+                predpr_id = cursor.fetchone()[0]
+                cursor.execute(f"UPDATE users SET money = money + {money} WHERE id={predpr_id}")
+                conn.commit()
+                conn.close()
         else:
             conn = sqlite3.connect("db/database.db")
             cursor = conn.cursor()
             cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project["id"].id}").fetchone()
             conn.commit()
             conn.close()
-        return render_template('open-project.html', title='Страница проекта', project=project)
+        return redirect(url_for('open_project', project_id=project["id"]))
+
     except:
-        return render_template('open-project.html', title='Страница проекта', project=project)
+        print(1)
+        return render_template('open-project.html', title='Стра23ница проекта', project=project,
+                               error='Ошибка перевода денег. Попробуйте ещё раз.')
 
 
 if __name__ == '__main__':
     app.register_blueprint(jobs_api.blueprint)
     # для списка объектов
     api.add_resource(users_resource.UsersListResource, '/api/v2/users')
-    #
-    # # для одного объекта
+    # для одного объекта
     api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:users_id>')
     app.run(port=8185, host='127.0.0.1')
