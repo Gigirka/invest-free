@@ -160,7 +160,7 @@
                 <p style="font-size: 20px">- Контакты: {{project.email}} ({{project.author}})</p>
                 <br>
                 <br>
-                {%if not project.invested_money == project.needed_money%}
+                {%if not project.invested_money == project.needed_money and current_user.type == "investor"%}
                 <form action="/invest" method="post" enctype="multipart/form-data">
                     <strong>Введите сумму, которую вы бы хотели вложить (в рублях)</strong><br>
                     <input type="text"  style="margin-top: 5px;" name="text"><br>
@@ -171,9 +171,11 @@
                         {{ error }}
                     </p>
                 {%else%}
-                    <div class="finished-container" style="text-align: center;">
-                      <h1 style="font-size: 50px;">ЗАВЕРШЕНО</h1>
-                    </div>
+                    {%if project.invested_money == project.needed_money%}
+                        <div class="finished-container" style="text-align: center;">
+                          <h1 style="font-size: 50px;">ЗАВЕРШЕНО</h1>
+                        </div>
+                    {%endif%}
 <!--                <a class="btn btn-primary btn-custom btn-orange">Инвестировать</a>-->
                 </form>
                 {%endif%}
