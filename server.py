@@ -33,7 +33,6 @@ def index():
     max_size = request.args.get('max_size')
     query = db_sess.query(Jobs)
     context['filter_name'] = f'Все'
-
     invested_money = Jobs.invested_money
     needed_money = Jobs.needed_money
     # Фильтры
@@ -50,19 +49,17 @@ def index():
         query = query.filter(Jobs.work_size <= int(max_size))
         context['filter_name'] = f'< {max_size} человек'
 
-
-    context["jobs"] = query.all()
+    context['jobs'] = query.all()
     try:
         your_projects = db_sess.query(Jobs).filter(Jobs.user_id == current_user.id).all()
     except:
         your_projects = []
     if your_projects:
-        context["your_projects"] = your_projects
+        context['your_projects'] = your_projects
 
     context['fresh_filter'] = fresh
     context['max_filter'] = progress_max
     context['max_size_filter'] = max_size
-
 
     return render_template('index.html', **context)
 
@@ -153,9 +150,11 @@ def logout():
     return redirect("/")
 
 
+
 @app.route('/add_job', methods=['GET', 'POST'])
 @login_required
 def add_job():
+    global project
     add_form = AddJobForm()
     if add_form.validate_on_submit():
         db_sess = db_session.create_session()
@@ -285,7 +284,7 @@ def open_project(project_id):
 
     conn.close()
 
-    percentage =round((project_data[8]) / (project_data[7]) * 100, 2)
+    percentage = round(((project_data[8]) / (project_data[7])) * 100, 2)
 
     project = {
         'id': project_data[0],
