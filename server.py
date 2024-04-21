@@ -1,7 +1,7 @@
 import io
 import sqlite3
 from datetime import datetime, timedelta
-
+from requests import get, post
 from PIL import Image, ImageDraw
 from flask import Flask, render_template, redirect, make_response, jsonify, send_file, request, url_for
 from data import db_session
@@ -35,43 +35,65 @@ def index():
     context['filter_name'] = f'Все'
     invested_money = Jobs.invested_money
     needed_money = Jobs.needed_money
+
+    jobs = get('http://localhost:8185/api/jobs').json()
+    print(jobs)
+    for e in jobs['jobs']:
+        print(e)
+    filtered_jobs = []
     # Фильтры
     if current_user.is_authenticated:
         if current_user.type == "investor":
-            print(1)
+
             if fresh:
+
                 five_days_ago = datetime.now() - timedelta(days=5)
-                query = query.filter(Jobs.date >= five_days_ago)
+                #query = query.filter(Jobs.date >= five_days_ago)
                 context['filter_name'] = f'Новые'
                 context['fresh_filter'] = fresh
 
+                for e in jobs['jobs']:
+                    if e['date'] >= five_days_ago:
+                        filtered_jobs.append(e)
+
             if progress_max:
-                query = query.filter(Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100)
+                #query = query.filter(Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100)
                 context['filter_name'] = f'< {progress_max}% собрано'
                 context['max_filter'] = progress_max
-
+                for e in jobs['jobs']:
+                    if e['invested_money'] / e['needed_money'] <= int(progress_max) / 100:
+                        filtered_jobs.append(e)
 
             if max_size:
-                query = query.filter(Jobs.work_size <= int(max_size))
+                #query = query.filter(Jobs.work_size <= int(max_size))
                 context['filter_name'] = f'< {max_size} человек'
                 context['max_size_filter'] = max_size
+                for e in jobs['jobs']:
+                    if e['work_size'] <= int(max_size):
+                        filtered_jobs.append(e)
 
-            context['jobs'] = query.all()
+            context['jobs'] = filtered_jobs
         else:
             try:
                 if progress_max:
                     context['filter_name'] = f'< {progress_max}% собрано'
 
-                    query = query.filter(Jobs.user_id == current_user.id, (Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100))
+                    #query = query.filter(Jobs.user_id == current_user.id, (Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100))
                     context['max_filter'] = progress_max
 
+                    for e in jobs['jobs']:
+                        if e['user_id'] == current_user.id and e['invested_money'] / e['needed_money'] <= int(progress_max) / 100:
+                            filtered_jobs.append(e)
+
                 else:
-                    query = query.filter(Jobs.user_id == current_user.id)
+                    for e in jobs['jobs']:
+                        if e['user_id'] == current_user.id:
+                            filtered_jobs.append(e)
             except:
                 query = []
 
             if query:
-                context['your_projects'] = query.all()
+                context['your_projects'] = filtered_jobs
 
     return render_template('index.html', **context)
 
