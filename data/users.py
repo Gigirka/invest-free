@@ -22,15 +22,10 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     image = sqlalchemy.Column(sqlalchemy.BLOB, nullable=True)
 
-    money = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    exp = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    qualification = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    money = sqlalchemy.Column(sqlalchemy.Integer, nullable=True, default=0)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    age = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    address = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    speciality = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     personal = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    capital = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    capital = sqlalchemy.Column(sqlalchemy.Integer, nullable=True, default=0)
     private_or_fund = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     # jobs = orm.relationship("Jobs", back_populates='user')
 

@@ -142,6 +142,7 @@ def reqister_business():
             image_data = None
         user = User(
             type='businessman',
+            name=form.name.data,
             email=form.email.data,
             password=form.password.data,
             image=image_data
@@ -335,9 +336,11 @@ def invest():
             conn = sqlite3.connect("db/database.db")
             cursor = conn.cursor()
 
-            if int(money) > int(cursor.execute(f"SELECT money FROM users WHERE id={current_user.id}").fetchone()[0]):
-                return render_template('open-project.html', title='Стра23ница проекта', project=project,
-                                       error='Недостаточно средств')
+            if int(money) > int(cursor.execute(f"SELECT capital FROM users WHERE id={current_user.id}").fetchone()[0]):
+                raise ValueError("Недостаточно средств")
+
+            if int(project['invested_money']) + int(money) > int(project['needed_money']):
+                raise ValueError("Сумма инвестирования превышает необходимую сумму!")
 
             project['invested_money'] = int(project['invested_money']) + int(money)
             if project['invested_money'] >= int(project['needed_money']):
@@ -347,7 +350,7 @@ def invest():
                 conn.commit()
                 cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project["id"].id}").fetchone()
                 conn.commit()
-                cursor.execute(f"UPDATE users SET money = money - {money}  WHERE id={current_user.id}").fetchone()
+                cursor.execute(f"UPDATE users SET capital = capital - {money}  WHERE id={current_user.id}").fetchone()
                 conn.commit()
                 conn.close()
                 # project['is_finished'] = True
@@ -355,7 +358,7 @@ def invest():
                 cursor.execute(
                     f"UPDATE jobs SET invested_money = invested_money + {money}  WHERE id={project["id"]}").fetchone()
 
-                cursor.execute(f"UPDATE users SET money = money - {money}  WHERE id={current_user.id}").fetchone()
+                cursor.execute(f"UPDATE users SET capital = capital - {money}  WHERE id={current_user.id}").fetchone()
                 conn.commit()
                 cursor.execute(f"SELECT user_id FROM jobs WHERE id={project["id"]}")
                 predpr_id = cursor.fetchone()[0]
@@ -370,11 +373,8 @@ def invest():
             conn.close()
         return redirect(url_for('open_project', project_id=project["id"]))
 
-    except:
-        print(1)
-        return render_template('open-project.html', title='Стра23ница проекта', project=project,
-                               error='Ошибка перевода денег. Попробуйте ещё раз.')
-
+    except ValueError as e:
+        return render_template('open-project.html', title='Страница проекта', project=project, error=str(e))
 
 if __name__ == '__main__':
     app.register_blueprint(jobs_api.blueprint)
