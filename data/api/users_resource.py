@@ -57,10 +57,10 @@ class UsersListResource(Resource):
             qualification=args['qualification'],
             speciality=args['speciality'],
             address=args['address'],
-            password=args['password'],
+            # password=args['password'],
             # speciality=args['speciality'],
         )
-        hashed_password = users.set_password(args['hashed_password'])
+        password = users.set_password(args['password'])
         session.add(users)
         session.commit()
         return jsonify({'id': users.id})
