@@ -58,7 +58,7 @@ def create_jobs():
         user_id=request.json['user_id'],
         # image=request.json['image'],
         info=request.json['info'],
-        date=request.json['date'],
+        # date=request.json['date'],
         needed_money=request.json['needed_money'],
         invested_money=request.json['invested_money'],
         is_finished=request.json['is_finished']
