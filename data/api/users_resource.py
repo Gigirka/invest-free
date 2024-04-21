@@ -18,10 +18,11 @@ class UsersResource(Resource):
         abort_if_users_not_found(users_id)
         session = db_session.create_session()
         users = session.query(User).get(users_id)
+        print(users)
         return jsonify({'users': users.to_dict(
-            only=('name', 'surname', 'age', 'address',
-                  'email', 'position', 'speciality',
-                  'hashed_password'))})
+            only=('type', 'name', 'surname', 'age', 'email',
+                  'money', 'exp', 'personal',
+                  'capital', 'private_or_fund', 'qualification', 'speciality', 'address', 'password'))})
 
     def delete(self, users_id):
         abort_if_users_not_found(users_id)
@@ -29,6 +30,7 @@ class UsersResource(Resource):
         users = session.query(User).get(users_id)
         session.delete(users)
         session.commit()
+        print(users)
         return jsonify({'success': 'OK'})
 
 
@@ -36,10 +38,11 @@ class UsersListResource(Resource):
     def get(self):
         session = db_session.create_session()
         users = session.query(User).all()
+        print(1)
         return jsonify({'users': [item.to_dict(
-            only=('name', 'surname', 'age', 'address',
-                  'email', 'position', 'speciality',
-                  'hashed_password')) for item in users]})
+            only=('type', 'name', 'surname', 'age', 'email',
+                  'money', 'exp', 'personal',
+                  'capital', 'private_or_fund', 'qualification', 'speciality', 'address', 'password')) for item in users]})
 
     def post(self):
         args = parser.parse_args()

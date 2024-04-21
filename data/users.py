@@ -24,10 +24,10 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     money = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     exp = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-
+    qualification = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     age = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-
+    address = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     speciality = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     personal = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     capital = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
