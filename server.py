@@ -205,15 +205,14 @@ def add_job():
                            form=add_form)
 
 
-@app.route('/delete_job', methods=['GET, POST, DELETE'])
-def delete_job():
-    global project
-    print(1)
-    session = db_session.create_session()
-    job = session.query(Jobs).get(project['id'])
-    session.delete(job)
-    session.commit()
-    return redirect(url_for('/'))
+@app.route('/delete_job/<int:project_id>', methods=['POST'])
+def delete_job(project_id):
+    conn = sqlite3.connect("db/database.db")
+    cursor = conn.cursor()
+    cursor.execute(f"DELETE FROM jobs WHERE id = {int(project_id)}")
+    conn.commit()
+    conn.close()
+    return redirect("/")
 
 
 @login_manager.user_loader

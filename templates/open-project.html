@@ -182,9 +182,12 @@
             </div>
         </div>
         <p style="font-size: 22px">{{ project.info }}</p>
+        {% if current_user.type == "businessman" %}
+            <form action="{{ url_for('delete_job', project_id=project.id) }}" method="post">
+                <input type="submit" class="btn btn-secondary btn-custom3" style="width: 30%;" value="Удалить проект">
+            </form>
+        {% endif %}
     </div>
-{%if current_user.type == "businessman"%}
-    <a href="/delete_job" class="btn btn-secondary btn-custom3">Удалить проект</a>
-    {%endif%}
+
 </div>
 {% endblock %}
