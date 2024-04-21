@@ -36,30 +36,42 @@ def index():
     invested_money = Jobs.invested_money
     needed_money = Jobs.needed_money
     # Фильтры
-    if fresh:
-        five_days_ago = datetime.now() - timedelta(days=5)
-        query = query.filter(Jobs.date >= five_days_ago)
-        context['filter_name'] = f'Новые'
+    if current_user.is_authenticated:
+        if current_user.type == "investor":
+            print(1)
+            if fresh:
+                five_days_ago = datetime.now() - timedelta(days=5)
+                query = query.filter(Jobs.date >= five_days_ago)
+                context['filter_name'] = f'Новые'
+                context['fresh_filter'] = fresh
 
-    if progress_max:
-        query = query.filter(Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100)
-        context['filter_name'] = f'< {progress_max}% собрано'
+            if progress_max:
+                query = query.filter(Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100)
+                context['filter_name'] = f'< {progress_max}% собрано'
+                context['max_filter'] = progress_max
 
-    if max_size:
-        query = query.filter(Jobs.work_size <= int(max_size))
-        context['filter_name'] = f'< {max_size} человек'
 
-    context['jobs'] = query.all()
-    try:
-        your_projects = db_sess.query(Jobs).filter(Jobs.user_id == current_user.id).all()
-    except:
-        your_projects = []
-    if your_projects:
-        context['your_projects'] = your_projects
+            if max_size:
+                query = query.filter(Jobs.work_size <= int(max_size))
+                context['filter_name'] = f'< {max_size} человек'
+                context['max_size_filter'] = max_size
 
-    context['fresh_filter'] = fresh
-    context['max_filter'] = progress_max
-    context['max_size_filter'] = max_size
+            context['jobs'] = query.all()
+        else:
+            try:
+                if progress_max:
+                    context['filter_name'] = f'< {progress_max}% собрано'
+
+                    query = query.filter(Jobs.user_id == current_user.id, (Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100))
+                    context['max_filter'] = progress_max
+
+                else:
+                    query = query.filter(Jobs.user_id == current_user.id)
+            except:
+                query = []
+
+            if query:
+                context['your_projects'] = query.all()
 
     return render_template('index.html', **context)
 
