@@ -305,7 +305,7 @@ body {
                         <div class="project-content">
                             <h1>{{job['project_name']}}</h1>
                             <p>{{job['info'][:200]}}...</p>
-                            <h5 style="margin-bottom: 25px;">Опубликовано: {{ job['date'] }}</h5>
+                            <h5 style="margin-bottom: 25px; color: 	#A9A9A9;">Опубликовано: {{ job['date'] }}</h5>
 <!--                            strftime('%Y-%m-%d %H:%M')-->
                              <div class="progress-bar">
                                 <div class="progress" style="width: {{ job.invested_money / job.needed_money * 100 }}%;"></div>
@@ -349,7 +349,7 @@ body {
                         <div class="project-content">
                             <h1>{{job.project_name}}</h1>
                             <p>{{job.info[:200]}}...</p>
-                            <h5 style="margin-bottom: 25px;">Опубликовано: {{ job.date }}</h5>
+                            <h5 style="margin-bottom: 25px; color: #A9A9A9;">Опубликовано: {{ job.date }}</h5>
                              <div class="progress-bar">
                                 <div class="progress" style="width: {{ job.invested_money / job.needed_money * 100 }}%;"></div>
                             </div>
