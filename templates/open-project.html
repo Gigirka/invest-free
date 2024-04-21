@@ -158,6 +158,7 @@
                 <p style="font-size: 20px; margin-top: 20px;">- Кол-во работников: {{project.work_size}}</p>
                 <p style="font-size: 20px">- Контакты: {{project.email}} ({{project.author}})</p>
 
+
                 {%if not project.invested_money == project.needed_money and current_user.type == "investor"%}
                 <form action="/invest" method="post" enctype="multipart/form-data">
                     <strong>Введите сумму, которую вы бы хотели вложить (в рублях)</strong>
@@ -182,6 +183,8 @@
         </div>
         <p style="font-size: 22px">{{ project.info }}</p>
     </div>
-
+{%if current_user.type == "businessman"%}
+    <a href="/delete_job" class="btn btn-secondary btn-custom3">Удалить проект</a>
+    {%endif%}
 </div>
 {% endblock %}

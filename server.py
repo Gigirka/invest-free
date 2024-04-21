@@ -1,7 +1,7 @@
 import io
 import sqlite3
 from datetime import datetime, timedelta
-from requests import get, post
+from requests import get, post, delete
 from PIL import Image, ImageDraw
 from flask import Flask, render_template, redirect, make_response, jsonify, send_file, request, url_for
 from data import db_session
@@ -46,7 +46,7 @@ def index():
         if current_user.type == "investor":
 
             if progress_max:
-                #query = query.filter(Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100)
+                # query = query.filter(Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100)
                 context['filter_name'] = f'< {progress_max}% собрано'
                 context['max_filter'] = progress_max
                 for e in jobs['jobs']:
@@ -54,7 +54,7 @@ def index():
                         filtered_jobs.append(e)
 
             elif max_size:
-                #query = query.filter(Jobs.work_size <= int(max_size))
+                # query = query.filter(Jobs.work_size <= int(max_size))
                 context['filter_name'] = f'< {max_size} человек'
                 context['max_size_filter'] = max_size
                 for e in jobs['jobs']:
@@ -69,11 +69,12 @@ def index():
                 if progress_max:
                     context['filter_name'] = f'< {progress_max}% собрано'
 
-                    #query = query.filter(Jobs.user_id == current_user.id, (Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100))
+                    # query = query.filter(Jobs.user_id == current_user.id, (Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100))
                     context['max_filter'] = progress_max
 
                     for e in jobs['jobs']:
-                        if e['user_id'] == current_user.id and e['invested_money'] / e['needed_money'] <= int(progress_max) / 100:
+                        if e['user_id'] == current_user.id and e['invested_money'] / e['needed_money'] <= int(
+                                progress_max) / 100:
                             filtered_jobs.append(e)
 
                 else:
@@ -87,6 +88,7 @@ def index():
                 context['your_projects'] = filtered_jobs
 
     return render_template('index.html', **context)
+
 
 @app.route('/register-invest', methods=['GET', 'POST'])
 def reqister_invest():
@@ -176,7 +178,6 @@ def logout():
     return redirect("/")
 
 
-
 @app.route('/add_job', methods=['GET', 'POST'])
 @login_required
 def add_job():
@@ -202,6 +203,17 @@ def add_job():
         return redirect("/")
     return render_template('add_job.html', title='Добавление работы',
                            form=add_form)
+
+
+@app.route('/delete_job', methods=['GET, POST, DELETE'])
+def delete_job():
+    global project
+    print(1)
+    session = db_session.create_session()
+    job = session.query(Jobs).get(project['id'])
+    session.delete(job)
+    session.commit()
+    return redirect(url_for('/'))
 
 
 @login_manager.user_loader
@@ -375,6 +387,7 @@ def invest():
 
     except ValueError as e:
         return render_template('open-project.html', title='Страница проекта', project=project, error=str(e))
+
 
 if __name__ == '__main__':
     app.register_blueprint(jobs_api.blueprint)
