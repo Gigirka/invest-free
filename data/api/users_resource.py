@@ -18,9 +18,8 @@ class UsersResource(Resource):
         abort_if_users_not_found(users_id)
         session = db_session.create_session()
         users = session.query(User).get(users_id)
-        print(users)
         return jsonify({'users': users.to_dict(
-            only=('type', 'name', 'surname', 'age', 'email',
+            only=('type', 'name', 'age', 'email',
                   'money', 'exp', 'personal',
                   'capital', 'private_or_fund', 'qualification', 'speciality', 'address', 'password'))})
 
@@ -30,7 +29,6 @@ class UsersResource(Resource):
         users = session.query(User).get(users_id)
         session.delete(users)
         session.commit()
-        print(users)
         return jsonify({'success': 'OK'})
 
 
@@ -38,9 +36,8 @@ class UsersListResource(Resource):
     def get(self):
         session = db_session.create_session()
         users = session.query(User).all()
-        print(1)
         return jsonify({'users': [item.to_dict(
-            only=('type', 'name', 'surname', 'age', 'email',
+            only=('type', 'name', 'age', 'email',
                   'money', 'exp', 'personal',
                   'capital', 'private_or_fund', 'qualification', 'speciality', 'address', 'password')) for item in users]})
 
@@ -48,13 +45,20 @@ class UsersListResource(Resource):
         args = parser.parse_args()
         session = db_session.create_session()
         users = User(
+            type=args['type'],
             name=args['name'],
-            surname=args['surname'],
             age=args['age'],
-            address=args['address'],
             email=args['email'],
-            position=args['position'],
+            money=args['money'],
+            exp=args['exp'],
+            personal=args['personal'],
+            capital=args['capital'],
+            private_or_fund=args['private_or_fund'],
+            qualification=args['qualification'],
             speciality=args['speciality'],
+            address=args['address'],
+            password=args['password'],
+            # speciality=args['speciality'],
         )
         hashed_password = users.set_password(args['hashed_password'])
         session.add(users)
