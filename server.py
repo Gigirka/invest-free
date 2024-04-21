@@ -45,17 +45,6 @@ def index():
     if current_user.is_authenticated:
         if current_user.type == "investor":
 
-            if fresh:
-
-                five_days_ago = datetime.now() - timedelta(days=5)
-                #query = query.filter(Jobs.date >= five_days_ago)
-                context['filter_name'] = f'Новые'
-                context['fresh_filter'] = fresh
-
-                for e in jobs['jobs']:
-                    if e['date'] >= five_days_ago:
-                        filtered_jobs.append(e)
-
             if progress_max:
                 #query = query.filter(Jobs.invested_money / Jobs.needed_money <= int(progress_max) / 100)
                 context['filter_name'] = f'< {progress_max}% собрано'
@@ -64,14 +53,16 @@ def index():
                     if e['invested_money'] / e['needed_money'] <= int(progress_max) / 100:
                         filtered_jobs.append(e)
 
-            if max_size:
+            elif max_size:
                 #query = query.filter(Jobs.work_size <= int(max_size))
                 context['filter_name'] = f'< {max_size} человек'
                 context['max_size_filter'] = max_size
                 for e in jobs['jobs']:
                     if e['work_size'] <= int(max_size):
                         filtered_jobs.append(e)
-
+            else:
+                for e in jobs['jobs']:
+                    filtered_jobs.append(e)
             context['jobs'] = filtered_jobs
         else:
             try:
