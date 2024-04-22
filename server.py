@@ -357,9 +357,9 @@ def invest():
             if project['invested_money'] >= int(project['needed_money']):
                 project['invested_money'] = int(project['needed_money'])
                 cursor.execute(
-                    f"UPDATE jobs SET invested_money = needed_money  WHERE id={project["id"]}").fetchone()
+                    f"UPDATE jobs SET invested_money = needed_money  WHERE id={project['id']}").fetchone()
                 conn.commit()
-                cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project["id"]}").fetchone()
+                cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project['id']}").fetchone()
                 conn.commit()
                 cursor.execute(f"UPDATE users SET capital = capital - {money}  WHERE id={current_user.id}").fetchone()
                 conn.commit()
@@ -367,11 +367,11 @@ def invest():
                 # project['is_finished'] = True
             else:
                 cursor.execute(
-                    f"UPDATE jobs SET invested_money = invested_money + {money}  WHERE id={project["id"]}").fetchone()
+                    f"UPDATE jobs SET invested_money = invested_money + {money}  WHERE id={project['id']}").fetchone()
 
                 cursor.execute(f"UPDATE users SET capital = capital - {money}  WHERE id={current_user.id}").fetchone()
                 conn.commit()
-                cursor.execute(f"SELECT user_id FROM jobs WHERE id={project["id"]}")
+                cursor.execute(f"SELECT user_id FROM jobs WHERE id={project['id']}")
                 predpr_id = cursor.fetchone()[0]
                 cursor.execute(f"UPDATE users SET money = money + {money} WHERE id={predpr_id}")
                 conn.commit()
@@ -379,10 +379,10 @@ def invest():
         else:
             conn = sqlite3.connect("db/database.db")
             cursor = conn.cursor()
-            cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project["id"].id}").fetchone()
+            cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project['id'].id}").fetchone()
             conn.commit()
             conn.close()
-        return redirect(url_for('open_project', project_id=project["id"]))
+        return redirect(url_for('open_project', project_id=project['id']))
 
     except ValueError as e:
         if str(e).split()[0] == 'invalid':
