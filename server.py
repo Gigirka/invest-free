@@ -385,8 +385,10 @@ def invest():
         return redirect(url_for('open_project', project_id=project["id"]))
 
     except ValueError as e:
-        return render_template('open-project.html', title='Страница проекта', project=project, error=str(e))
-
+        if str(e).split()[0] == 'invalid':
+            return render_template('open-project.html', title='Страница проекта', project=project, error="ОшибкаПодп. Вводите в поле только цифры.")
+        else:
+            return render_template('open-project.html', title='Страница проекта', project=project, error=str(e))
 
 if __name__ == '__main__':
     app.register_blueprint(jobs_api.blueprint)
