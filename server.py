@@ -350,18 +350,19 @@ def invest():
             if int(money) > int(cursor.execute(f"SELECT capital FROM users WHERE id={current_user.id}").fetchone()[0]):
                 raise ValueError("Недостаточно средств")
 
-            if int(project['invested_money']) + int(money) > int(project['needed_money']):
-                raise ValueError("Сумма инвестирования превышает необходимую сумму!")
-
             project['invested_money'] = int(project['invested_money']) + int(money)
             if project['invested_money'] >= int(project['needed_money']):
-                project['invested_money'] = int(project['needed_money'])
+                project['invested_money'] = int(project['needed_money']) + int(money)
                 cursor.execute(
                     f"UPDATE jobs SET invested_money = needed_money  WHERE id={project['id']}").fetchone()
                 conn.commit()
                 cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project['id']}").fetchone()
                 conn.commit()
                 cursor.execute(f"UPDATE users SET capital = capital - {money}  WHERE id={current_user.id}").fetchone()
+                cursor.execute(f"SELECT user_id FROM jobs WHERE id={project['id']}")
+                predpr_id = cursor.fetchone()[0]
+                cursor.execute(f"UPDATE users SET money = money + {money} WHERE id={predpr_id}")
+
                 conn.commit()
                 conn.close()
                 # project['is_finished'] = True
@@ -379,7 +380,7 @@ def invest():
         else:
             conn = sqlite3.connect("db/database.db")
             cursor = conn.cursor()
-            cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project['id'].id}").fetchone()
+            cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project['id']}").fetchone()
             conn.commit()
             conn.close()
         return redirect(url_for('open_project', project_id=project['id']))
