@@ -359,7 +359,7 @@ def invest():
                 cursor.execute(
                     f"UPDATE jobs SET invested_money = needed_money  WHERE id={project["id"]}").fetchone()
                 conn.commit()
-                cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project["id"].id}").fetchone()
+                cursor.execute(f"UPDATE jobs SET is_finished = 1  WHERE id={project["id"]}").fetchone()
                 conn.commit()
                 cursor.execute(f"UPDATE users SET capital = capital - {money}  WHERE id={current_user.id}").fetchone()
                 conn.commit()
@@ -386,7 +386,7 @@ def invest():
 
     except ValueError as e:
         if str(e).split()[0] == 'invalid':
-            return render_template('open-project.html', title='Страница проекта', project=project, error="ОшибкаПодп. Вводите в поле только цифры.")
+            return render_template('open-project.html', title='Страница проекта', project=project, error="Ошибка. Вводите в поле только цифры.")
         else:
             return render_template('open-project.html', title='Страница проекта', project=project, error=str(e))
 
