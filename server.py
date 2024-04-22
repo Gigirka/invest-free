@@ -177,7 +177,7 @@ def logout():
     logout_user()
     return redirect("/")
 
-
+# Добавление работы
 @app.route('/add_job', methods=['GET', 'POST'])
 @login_required
 def add_job():
@@ -204,7 +204,7 @@ def add_job():
     return render_template('add_job.html', title='Добавление работы',
                            form=add_form)
 
-
+# Удаление работы
 @app.route('/delete_job/<int:project_id>', methods=['POST'])
 def delete_job(project_id):
     conn = sqlite3.connect("db/database.db")
@@ -299,7 +299,7 @@ def get_project_picture_route(project_id):
 
 project = {}
 
-
+# Открытие страницы проекта
 @app.route('/open-project/<int:project_id>', methods=['GET', 'POST'])
 def open_project(project_id):
     global project
